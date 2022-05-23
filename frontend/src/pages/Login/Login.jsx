@@ -4,7 +4,7 @@ import { useHttp } from '../../hooks';
 import { makeStyles, Button, TextField, CircularProgress } from '@material-ui/core';
 import { gray100, primary } from '../../Utils/colors';
 import { requestConfigLogin, requestConfigAddressId } from '../../Utils/requestsConfigs';
-import CartContext from '../../data/cart-context';
+import GymContext from '../../data/gym-context';
 import Header from '../../components/Header/Header';
 
 const Login = () => {
@@ -12,7 +12,7 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const cartCtx = useContext(CartContext);
+  const cartCtx = useContext(GymContext);
 
   const { loading, data, sendRequest } = useHttp({});
 

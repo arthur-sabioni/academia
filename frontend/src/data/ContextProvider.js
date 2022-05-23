@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 
-import CartContext from './cart-context.js';
+import GymContext from './gym-context.js';
 
 const defaultCartState = {
   token: "",
@@ -93,7 +93,7 @@ const cartReducer = (state, action) => {
   return defaultCartState;
 };
 
-const CartProvider = (props) => {
+const GymProvider = (props) => {
   const [cartState, dispatchCartAction] = useReducer(
     cartReducer,
     defaultCartState
@@ -138,10 +138,10 @@ const CartProvider = (props) => {
   };
 
   return (
-    <CartContext.Provider value={cartCtx}>
+    <GymContext.Provider value={cartCtx}>
       {props.children}
-    </CartContext.Provider>
+    </GymContext.Provider>
   );
 };
 
-export default CartProvider;
+export default GymProvider;

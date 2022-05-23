@@ -4,13 +4,13 @@ import Home from './pages/Home/Home';
 import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
 import Menu from './pages/Menu/Menu';
-import CartProvider from './data/CartProvider';
+import ContextProvider from './data/ContextProvider';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <CartProvider>
+      <ContextProvider>
         <BrowserRouter>
           <Routes>
             <Route path='/register' element={<Register />} />
@@ -21,7 +21,7 @@ function App() {
             <Route path='/' element={<Home />} />
           </Routes>
         </BrowserRouter>
-      </CartProvider>
+      </ContextProvider>
     </div>
   );
 }

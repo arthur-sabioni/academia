@@ -4,14 +4,14 @@ import CartItem from "./CartItem";
 import React from "react"
 import Modal from "../../UI/Modal"
 import { useHttp } from "../../hooks";
-import CartContext from "../../data/cart-context";
+import GymContext from "../../data/gym-context";
 import { requestConfigOrder } from "../../Utils/requestsConfigs";
 import { gray100, primary } from "../../Utils/colors";
 
 const Cart = (props) => {
   const { containerCart, containerCartItems, block, finished, center, progress, finish, total, button, address } = useStyles();
 
-  const cartCtx = useContext(CartContext);
+  const cartCtx = useContext(GymContext);
 
   const [isCheckout, setIsCheckout] = useState("false");
 

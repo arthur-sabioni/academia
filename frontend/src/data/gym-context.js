@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CartContext = React.createContext({
+const GymContext = React.createContext({
   token: "",
   address: "",
   addressId: 0,
@@ -14,4 +14,4 @@ const CartContext = React.createContext({
   addToken: (token) => { }
 });
 
-export default CartContext;
+export default GymContext;

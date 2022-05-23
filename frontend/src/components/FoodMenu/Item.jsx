@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, Button } from '@material-ui/core';
-import CartContext from '../../data/cart-context.js';
+import GymContext from '../../data/gym-context.js';
 import { useContext } from 'react';
 import { gray100, primary } from '../../Utils/colors.js';
 
 const Item = ({ id, name, description, price, image, type }) => {
   const { containerItem, picture, texts, title, pricestyle, buttons, button } = useStyles();
 
-  const cartCtx = useContext(CartContext)
+  const cartCtx = useContext(GymContext)
 
   const formattedPrice = `R$${price.toFixed(2)}`.replace(".", ",");
 

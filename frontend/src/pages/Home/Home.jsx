@@ -15,10 +15,10 @@ const Home = () => {
     <div className={container}>
       <Header homeConfig={true} cartDisabled={true} />
       <div className={containerHome}>
-        <img alt="Logo da pizzaria" src="iconepizzaria.png" height="256" width="256" />
+        <img alt="Logo da academia" src="iconeacademia.png" height="256" width="256" />
         <div>
-          <div className={title}>Papa's Pizzaria</div>
-          <div className={subtitle}>Bora matar a fome juntos?</div>
+          <div className={title}>Academia</div>
+          <div className={subtitle}>Bora ficar monstros?</div>
           <Button className={button} variant="contained" onClick={() => handleClickMenu()}>Ver cardápio</Button>
         </div>
       </div>

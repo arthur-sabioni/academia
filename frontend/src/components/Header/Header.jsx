@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, makeStyles } from '@material-ui/core';
 import { ShoppingCart } from '@material-ui/icons';
-import { primary, gray100 } from '../../Utils/colors';
+import { secondary, gray100 } from '../../Utils/colors';
 
 const Header = ({ homeConfig, loginDisabled, registerDisabled, cartDisabled, onShowCart }) => {
   const { containerHeader, logo, title, buttons, cart, button } = useStyles();
@@ -16,8 +16,8 @@ const Header = ({ homeConfig, loginDisabled, registerDisabled, cartDisabled, onS
         <div></div>
         :
         <div className={logo} onClick={() => token ? navigate(`/${token}`) : navigate('/')}>
-          <img alt="Logo da pizzaria" src="/iconepizzaria.png" height="32" width="32" />
-          <div className={title}>Papa's Pizzaria</div>
+          <img alt="Logo da pizzaria" src="/iconeacademia.png" height="32" width="32" />
+          <div className={title}>Academia</div>
         </div>
       }
 
@@ -62,7 +62,7 @@ const useStyles = makeStyles({
     gridColumn: 3,
     gridTemplateColumns: '4fr 1fr',
     padding: 24,
-    backgroundColor: primary,
+    backgroundColor: secondary,
     color: gray100,
     boxShadow: '0 6px 1em gray',
     fontWeight: 500,

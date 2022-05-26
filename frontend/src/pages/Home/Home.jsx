@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, makeStyles } from '@material-ui/core';
-import { primary, gray200 } from '../../Utils/colors';
+import { primary, color1 } from '../../Utils/colors';
 import Header from '../../components/Header/Header';
 
 const Home = () => {
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     gap: 40,
     paddingLeft: 128,
     backgroundColor: primary,
-    color: gray200,
+    color: color1,
   },
   title: {
     fontSize: 56,
@@ -49,7 +49,7 @@ const useStyles = makeStyles({
     fontSize: 24,
   },
   button: {
-    backgroundColor: `${gray200} !important`,
+    backgroundColor: `${color1} !important`,
     padding: '8px 16px',
     borderRadius: 8,
     marginTop: 24,

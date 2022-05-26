@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, makeStyles } from '@material-ui/core';
 import { ShoppingCart } from '@material-ui/icons';
-import { secondary, gray100 } from '../../Utils/colors';
+import { secundary, gray100 } from '../../Utils/colors';
 
 const Header = ({ homeConfig, loginDisabled, registerDisabled, cartDisabled, onShowCart }) => {
   const { containerHeader, logo, title, buttons, cart, button } = useStyles();

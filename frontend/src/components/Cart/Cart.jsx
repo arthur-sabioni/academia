@@ -6,7 +6,7 @@ import Modal from "../../UI/Modal"
 import { useHttp } from "../../hooks";
 import GymContext from "../../data/gym-context";
 import { requestConfigOrder } from "../../Utils/requestsConfigs";
-import { gray100, primary } from "../../Utils/colors";
+import { secundary, primary } from "../../Utils/colors";
 
 const Cart = (props) => {
   const { containerCart, containerCartItems, block, finished, center, progress, finish, total, button, address } = useStyles();
@@ -119,7 +119,7 @@ const useStyles = makeStyles({
   button: {
     width: 'fit-content',
     marginLeft: 'auto',
-    color: gray100,
+    color: secundary,
     backgroundColor: primary,
     padding: '8px 16px',
     borderRadius: 8,

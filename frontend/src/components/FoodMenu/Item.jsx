@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles, Button } from '@material-ui/core';
 import GymContext from '../../data/gym-context.js';
 import { useContext } from 'react';
-import { gray100, primary } from '../../Utils/colors.js';
+import { secundary, primary } from '../../Utils/colors.js';
 
 const Item = ({ id, name, description, price, image, type }) => {
   const { containerItem, picture, texts, title, pricestyle, buttons, button } = useStyles();
@@ -99,7 +99,7 @@ const useStyles = makeStyles({
   },
   button: {
     width: 'fit-content',
-    color: gray100,
+    color: secundary,
     backgroundColor: primary,
     padding: '8px 16px',
     borderRadius: 8,

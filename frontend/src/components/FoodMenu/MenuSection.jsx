@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import useHttp from "../../hooks/useHttp";
 import { makeStyles, CircularProgress } from "@material-ui/core";
-import { gray100, primary } from "../../Utils/colors";
+import { primary } from "../../Utils/colors";
 import Item from "./Item";
 import { requestConfigPromotions, requestConfigFoods, requestConfigDrinks } from "../../Utils/requestsConfigs";
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHttp } from '../../hooks';
 import { makeStyles, Button, MenuItem, TextField, CircularProgress } from '@material-ui/core';
-import { primary, gray100 } from '../../Utils/colors';
+import { primary, secundary } from '../../Utils/colors';
 import { requestConfigRegister, requestConfigAddress } from '../../Utils/requestsConfigs';
 import Header from '../../components/Header/Header';
 import { bairros } from '../../Utils/bairros';
@@ -116,7 +116,7 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    backgroundColor: `${gray100}`,
+    backgroundColor: `${secundary}`,
   },
   progress: {
     margin: 'auto',
@@ -192,7 +192,7 @@ const useStyles = makeStyles({
     justifyContent: 'right',
   },
   button: {
-    color: gray100,
+    color: secundary,
     backgroundColor: primary,
     padding: '8px 16px',
     borderRadius: 8,

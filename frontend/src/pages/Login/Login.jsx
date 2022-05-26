@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHttp } from '../../hooks';
 import { makeStyles, Button, TextField, CircularProgress } from '@material-ui/core';
-import { gray100, primary } from '../../Utils/colors';
+import { secundary, primary } from '../../Utils/colors';
 import { requestConfigLogin, requestConfigAddressId } from '../../Utils/requestsConfigs';
 import GymContext from '../../data/gym-context';
 import Header from '../../components/Header/Header';
@@ -73,7 +73,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexFlow: 'column',
     height: '100%',
-    backgroundColor: `${gray100}`,
+    backgroundColor: `${secundary}`,
   },
   containerLogin: {
     padding: 32,
@@ -103,7 +103,7 @@ const useStyles = makeStyles({
   },
   button: {
     width: 'fit-content',
-    color: gray100,
+    color: secundary,
     backgroundColor: primary,
     padding: '8px 16px',
     borderRadius: 8,

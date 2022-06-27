@@ -1,36 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, makeStyles } from '@material-ui/core';
-import { ShoppingCart } from '@material-ui/icons';
 import { secondary, gray100 } from '../../Utils/colors';
 
-const Header = ({ homeConfig, loginDisabled, registerDisabled, cartDisabled, onShowCart }) => {
-  const { containerHeader, logo, title, buttons, cart, button } = useStyles();
-  const { token } = useParams();
+const Header = ({ loginDisabled, registerDisabled, cartDisabled }) => {
+  const { containerHeader, logo, title, buttons, button } = useStyles();
+
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const { pathname } = location;
 
   return (
     <div className={containerHeader}>
-      {homeConfig ?
+      {pathname === '/' ?
         <div></div>
         :
-        <div className={logo} onClick={() => token ? navigate(`/${token}`) : navigate('/')}>
+        <div className={logo} onClick={() => navigate('/')}>
           <img alt="Logo da pizzaria" src="/iconeacademia.png" height="32" width="32" />
           <div className={title}>Academia</div>
         </div>
       }
 
-      {token ?
+      {false ? //token
         <div className={buttons}>
-          <ShoppingCart className={cart} color={cartDisabled ? 'action' : 'inherit'} onClick={onShowCart} />
           <Button className={button} variant="contained" onClick={() => { navigate('/') }}>Sair</Button>
         </div>
         :
         <>
           <div className={buttons}>
             <Button className={button} variant="contained" disabled={loginDisabled} onClick={() => { navigate('/login') }}>Login</Button>
-            <Button className={button} variant="contained" disabled={registerDisabled} onClick={() => { navigate('/register') }}>Cadastrar</Button>
+            {/* <Button className={button} variant="contained" disabled={registerDisabled} onClick={() => { navigate('/register') }}>Cadastrar</Button> */}
           </div>
         </>
       }
@@ -43,15 +44,12 @@ Header.defaultProps = {
   registerDisabled: false,
   cartDisabled: false,
   homeConfig: false,
-  onShowCart: () => { },
 };
 
 Header.propTypes = {
   loginDisabled: PropTypes.bool,
   registerDisabled: PropTypes.bool,
   cartDisabled: PropTypes.bool,
-  homeConfig: PropTypes.bool,
-  onShowCart: PropTypes.func,
 };
 
 const useStyles = makeStyles({
@@ -82,11 +80,6 @@ const useStyles = makeStyles({
     flexDirection: 'row',
     justifyContent: 'end',
     gap: 24,
-  },
-  cart: {
-    padding: '8px 16px',
-    borderRadius: 8,
-    cursor: 'pointer',
   },
   button: {
     backgroundColor: `${gray100} !important`,

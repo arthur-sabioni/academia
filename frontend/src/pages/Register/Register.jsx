@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useHttp } from '../../hooks';
 import { makeStyles, Button, MenuItem, TextField, CircularProgress } from '@material-ui/core';
 import { primary, gray100 } from '../../Utils/colors';
-import { requestConfigRegister, requestConfigAddress } from '../../Utils/requestsConfigs';
+import { requestConfigRegister } from '../../Utils/requestsConfigs';
 import Header from '../../components/Header/Header';
 import { bairros } from '../../Utils/bairros';
 
@@ -33,7 +33,7 @@ const Register = () => {
 
   useEffect(() => {
     if (data && data.token) {
-      sendRequest(requestConfigAddress(data.token, addressData));
+      //sendRequest(requestConfigAddress(data.token, addressData));
       navigate(`/${data.token}`);
     }
   }, [data]);

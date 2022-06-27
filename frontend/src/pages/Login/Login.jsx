@@ -1,37 +1,35 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHttp } from '../../hooks';
-import { makeStyles, Button, TextField, CircularProgress } from '@material-ui/core';
-import { gray100, primary } from '../../Utils/colors';
-import { requestConfigLogin, requestConfigAddressId } from '../../Utils/requestsConfigs';
-import GymContext from '../../data/gym-context';
+import { makeStyles, Button, TextField, CircularProgress, RadioGroup, Radio, FormControlLabel, FormLabel, FormControl } from '@material-ui/core';
+import { gray100, primary, secondary } from '../../Utils/colors';
+import { requestConfigLogin } from '../../Utils/requestsConfigs';
+import GymContext from '../../context/GymContext';
 import Header from '../../components/Header/Header';
 
 const Login = () => {
-  const { container, containerLogin, progress, title, form, field, button } = useStyles();
+  const CLIENT = 'cliente';
+
+  const { container, containerLogin, progress, title, radio, form, field, button } = useStyles();
 
   const navigate = useNavigate();
 
-  const cartCtx = useContext(GymContext);
+  const context = useContext(GymContext);
+  const { addToken } = context;
 
   const { loading, data, sendRequest } = useHttp({});
 
   const [loginInvalid, setLoginInvalid] = useState(false);
-
   const [loginData, setLoginData] = useState({
+    type: CLIENT,
     email: '',
     password: '',
   });
 
   useEffect(() => {
     if (data && data.token) {
-      cartCtx.addToken(data.token);
-      sendRequest(requestConfigAddressId(data.token))
-    }
-    if (data.rows) {
-      cartCtx.addAddress(`${data.rows[0].rua}, ${data.rows[0].numero} - ${data.rows[0].bairro}`);
-      cartCtx.addAddressId(data.rows[0].id);
-      navigate(`/${data.token}`);
+      addToken(data.token);
+      navigate(`/home`);
     }
   }, [data]);
 
@@ -45,8 +43,11 @@ const Login = () => {
       ...currentLoginData,
       [field]: event.target.value,
     }));
-    setLoginInvalid(loginData.email.match(/.+@.+/) === null);
+    if (field === 'email')
+      setLoginInvalid(loginData.email.match(/.+@.+/) === null);
   }
+
+  const getRadio = () => <Radio color="default" />;
 
   return (
     <div className={container}>
@@ -55,6 +56,18 @@ const Login = () => {
         {loading ? <CircularProgress className={progress} /> :
           <>
             <div className={title}>Login</div>
+            <FormControl className={radio}>
+              <FormLabel id="demo-row-radio-buttons-group-label" focused={false}>Logar como:</FormLabel>
+              < RadioGroup
+                row
+                name="row-radio-buttons-group"
+                value={CLIENT}
+                onChange={event => handleChange(event, 'type')}
+              >
+                <FormControlLabel value="cliente" control={getRadio()} label="Cliente" />
+                <FormControlLabel value="funcionario" control={getRadio()} label="Funcionário" />
+              </RadioGroup >
+            </FormControl >
             <div className={form}>
               <TextField className={field} id="text-field-email" variant="outlined" label="E-mail" onChange={event => handleChange(event, 'email')} />
               {loginInvalid ? <div>E-mail inválido</div> : <></>}
@@ -63,8 +76,8 @@ const Login = () => {
             </div>
           </>
         }
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 
@@ -85,11 +98,15 @@ const useStyles = makeStyles({
     flexDirection: 'column',
   },
   progress: {
-    color: primary,
+    color: secondary,
   },
   title: {
     fontSize: 32,
     textAlign: 'center',
+    marginBottom: 24,
+  },
+  radio: {
+    width: 400,
     marginBottom: 24,
   },
   form: {

@@ -15,7 +15,7 @@ const Menu = () => {
   return (
     <div className={container}>
       {showCart && <Cart onCloseCart={() => setShowCart(false)} />}
-      <Header onShowCart={() => setShowCart(true)}/>
+      <Header onShowCart={() => setShowCart(true)} />
       <div className={containerTab}>
         <Paper>
           <Tabs

@@ -4,7 +4,7 @@ import CartItem from "./CartItem";
 import React from "react"
 import Modal from "../../UI/Modal"
 import { useHttp } from "../../hooks";
-import GymContext from "../../data/gym-context";
+import GymContext from "../../context/GymContext";
 import { requestConfigOrder } from "../../Utils/requestsConfigs";
 import { gray100, primary } from "../../Utils/colors";
 

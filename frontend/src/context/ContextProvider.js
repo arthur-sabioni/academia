@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 
-import GymContext from './gym-context.js';
+import GymContext from './GymContext.js';
 
 const defaultCartState = {
   token: "",

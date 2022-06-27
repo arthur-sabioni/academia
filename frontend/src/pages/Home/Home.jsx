@@ -1,25 +1,22 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, makeStyles } from '@material-ui/core';
 import { primary, gray200 } from '../../Utils/colors';
 import Header from '../../components/Header/Header';
 
 const Home = () => {
   const { container, containerHome, title, subtitle, button } = useStyles();
-  const { token } = useParams();
   const navigate = useNavigate();
 
-  const handleClickMenu = () => token ? navigate(`/menu/${token}`) : navigate('/menu');
-  
   return (
     <div className={container}>
-      <Header homeConfig={true} cartDisabled={true} />
+      <Header cartDisabled={true} />
       <div className={containerHome}>
         <img alt="Logo da academia" src="iconeacademia.png" height="256" width="256" />
         <div>
           <div className={title}>Academia</div>
           <div className={subtitle}>Bora ficar monstros?</div>
-          <Button className={button} variant="contained" onClick={() => handleClickMenu()}>Ver cardápio</Button>
+          <Button className={button} variant="contained" onClick={() => navigate('plans')}>Ver planos</Button>
         </div>
       </div>
     </div>

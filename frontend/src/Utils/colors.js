@@ -4,19 +4,19 @@ export const background = {
 };
 
 export const primary = {
-  main: '#2dc124',
+  main: '#F2737A',
   light: '#FFA4A9',
   dark: '#BB434E',
 };
 
 export const secondary = {
-  main: '#c12424',
+  main: '#2C3F59',
   light: '#576986',
   dark: '#001930',
 };
 
 export const thirdy = {
-  main: '#476ba9',
+  main: '#7F8692',
   light: '#AEB6C2',
   dark: '#535964',
 };

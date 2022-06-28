@@ -76,7 +76,10 @@ const theme = createTheme({
 
           '&.Mui-selected': {
             backgroundColor: thirdy.light,
-          }
+          },
+          '&.Mui-hover': {
+            backgroundColor: thirdy.light,
+          },
         },
       },
     },

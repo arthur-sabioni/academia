@@ -17,6 +17,7 @@ const Register = () => {
   const { loading, error, data, sendRequest } = useHttp('');
 
   const [personalData, setPersonalData] = useState({
+    type: 'cliente',
     name: '',
     cpf: '',
     rg: '',
@@ -48,7 +49,7 @@ const Register = () => {
                 <RadioGroup
                   row
                   className={radio}
-                  value={'cliente'}
+                  value={personalData.type}
                   onChange={event => handleChange(event, 'type')}
                 >
                   <FormControlLabel value="cliente" control={getRadio()} label="Cliente" />
@@ -66,7 +67,7 @@ const Register = () => {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                       label="Data de Nascimento"
-                      inputFormat="dd/mm/yyyy"
+                      inputFormat="dd/MM/yyyy"
                       maxDate={new Date()}
                       value={personalData.birth}
                       onChange={newDate => handleChange(newDate, 'birth')}

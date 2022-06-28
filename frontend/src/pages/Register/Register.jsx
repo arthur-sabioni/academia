@@ -1,160 +1,125 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useHttp } from '../../hooks';
-import { makeStyles, Button, MenuItem, TextField, CircularProgress } from '@material-ui/core';
-import { primary, gray100 } from '../../Utils/colors';
+import { makeStyles } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
+import { Button, TextField, CircularProgress, RadioGroup, FormControlLabel, Radio, ThemeProvider } from '@mui/material';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { requestConfigRegister } from '../../Utils/requestsConfigs';
 import Header from '../../components/Header/Header';
-import { bairros } from '../../Utils/bairros';
-
-const districts = bairros;
 
 const Register = () => {
-  const { container, containerRegister, progress, title, fieldset, legend, form, personal, address, fieldName, fieldPhone, fieldCpf, fieldEmail, fieldPassword, fieldCep, fieldDistrict, fieldStreet, fieldNumber, fieldComplement, submit, button } = useStyles();
-  const navigate = useNavigate();
+  const theme = useTheme();
+
+  const { register, title, fieldset, legend, radio, form, fieldName, fieldPhone, fieldCpf, fieldRg, fieldBirth, fieldEmail, button } = useStyles(theme);
 
   const { loading, error, data, sendRequest } = useHttp('');
 
-  const [district, setDistrict] = useState(districts[0].value);
   const [personalData, setPersonalData] = useState({
     name: '',
     cpf: '',
+    rg: '',
+    birth: null,
     email: '',
     phone: '',
-    password: '',
-  });
-  const [addressData, setAddressData] = useState({
-    cep: '',
-    district: '',
-    street: '',
-    number: '',
-    complement: '',
   });
 
-  useEffect(() => {
-    if (data && data.token) {
-      //sendRequest(requestConfigAddress(data.token, addressData));
-      navigate(`/${data.token}`);
-    }
-  }, [data]);
+  const registrar = () => sendRequest(requestConfigRegister(personalData));
 
-  const register = () => sendRequest(requestConfigRegister(personalData));
-
-  const handleChange = (event, field, type = 'personal') => type === 'address' ?
-    setAddressData(currentAddressData => ({
-      ...currentAddressData,
-      [field]: event.target.value,
-    }))
-    :
+  const handleChange = (event, field) =>
     setPersonalData(currentPersonalData => ({
       ...currentPersonalData,
-      [field]: event.target.value,
+      [field]: field === 'birth' ? event : event.target.value,
     }));
 
+  const getRadio = () => <Radio color="secondary" />;
+
   return (
-    <div className={container}>
-      <Header registerDisabled={true} cartDisabled={true} />
-      <div className={containerRegister}>
-        {loading ? <CircularProgress className={progress} /> : <>
-          <div className={title}>Cadastro</div>
-          <fieldset className={fieldset}>
-            <legend className={legend}>Dados pessoais</legend>
-            <div className={`${form} ${personal}`}>
-              <TextField className={fieldName} id="text-field-name" variant="outlined" label="Nome" onChange={event => handleChange(event, 'name')} />
-              <TextField className={fieldCpf} id="text-field-cpf" variant="outlined" label="CPF" onChange={event => handleChange(event, 'cpf')} />
-              <TextField className={fieldPhone} id="text-field-phone" variant="outlined" label="Celular" onChange={event => handleChange(event, 'phone')} />
-              <TextField className={fieldEmail} id="text-field-email" variant="outlined" label="E-mail" onChange={event => handleChange(event, 'email')} />
-              <TextField type="password" className={fieldPassword} id="text-field-password" variant="outlined" label="Senha" onChange={event => handleChange(event, 'password')} />
-            </div>
-          </fieldset>
-          <fieldset className={fieldset}>
-            <legend className={legend}>Endereço</legend>
-            <div className={`${form} ${address}`}>
-              <TextField className={fieldCep} id="text-field-cep" variant="outlined" label="CEP" helperText="Somente são permitidos endereços na cidade de Belo Horizonte" onChange={event => handleChange(event, 'cep', 'address')} />
-              <TextField
-                select
-                className={fieldDistrict}
-                id="select-district"
-                variant="outlined"
-                label="Bairro"
-                value={district}
-                onChange={event => {
-                  setDistrict(event.target.value);
-                  handleChange(event, 'district', 'address')
-                }}
-              >
-                {districts.map(d => (
-                  <MenuItem key={d.key} value={d.value}>
-                    {d.value}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField className={fieldStreet} id="text-field-street" variant="outlined" label="Rua" onChange={event => handleChange(event, 'street', 'address')} />
-              <TextField className={fieldNumber} id="text-field-number" variant="outlined" label="Número" onChange={event => handleChange(event, 'number', 'address')} />
-              <TextField className={fieldComplement} id="text-field-complement" variant="outlined" label="Complemento" onChange={event => handleChange(event, 'complement', 'address')} />
-            </div>
-          </fieldset>
-          <div className={submit}>
-            <Button className={button} variant="contained" onClick={() => register()}>Cadastrar</Button>
-          </div>
-        </>}
+    <ThemeProvider theme={theme}>
+      <Header />
+      <div className={register}>
+        {
+          loading ? <CircularProgress /> :
+            <>
+              <div className={title}>Cadastro</div>
+              <fieldset className={fieldset}>
+                <legend className={legend}>Tipo de usuário</legend>
+                <RadioGroup
+                  row
+                  className={radio}
+                  value={'cliente'}
+                  onChange={event => handleChange(event, 'type')}
+                >
+                  <FormControlLabel value="cliente" control={getRadio()} label="Cliente" />
+                  <FormControlLabel value="secretaria" control={getRadio()} label="Secretária" />
+                  <FormControlLabel value="professor" control={getRadio()} label="Professor" />
+                  <FormControlLabel value="medico" control={getRadio()} label="Médico" />
+                </RadioGroup >
+              </fieldset>
+              <fieldset className={fieldset}>
+                <legend className={legend}>Dados pessoais</legend>
+                <div className={form}>
+                  <TextField className={fieldName} variant="outlined" color="secondary" label="Nome" onChange={event => handleChange(event, 'name')} />
+                  <TextField className={fieldCpf} variant="outlined" color="secondary" label="CPF" onChange={event => handleChange(event, 'cpf')} />
+                  <TextField className={fieldRg} variant="outlined" color="secondary" label="RG" onChange={event => handleChange(event, 'rg')} />
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                      label="Data de Nascimento"
+                      inputFormat="dd/mm/yyyy"
+                      maxDate={new Date()}
+                      value={personalData.birth}
+                      onChange={newDate => handleChange(newDate, 'birth')}
+                      renderInput={(params) => <TextField className={fieldBirth} variant="outlined" color="secondary" {...params} />}
+                    />
+                  </LocalizationProvider>
+                  <TextField className={fieldPhone} variant="outlined" color="secondary" label="Celular" onChange={event => handleChange(event, 'phone')} />
+                  <TextField className={fieldEmail} variant="outlined" color="secondary" label="E-mail" onChange={event => handleChange(event, 'email')} />
+                </div>
+              </fieldset>
+              <div className={button}>
+                <Button variant="contained" color="secondary" onClick={() => registrar()}>Cadastrar</Button>
+              </div>
+            </>
+        }
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 
-const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexFlow: 'column',
-    height: '100%',
-  },
-  containerRegister: {
+const useStyles = makeStyles((theme) => ({
+  register: {
     padding: '40px 64px',
     flexGrow: 1,
     flexBasis: 'auto',
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    backgroundColor: `${gray100}`,
-  },
-  progress: {
-    margin: 'auto',
-    color: primary,
+    gap: 48,
   },
   title: {
     fontSize: 32,
-    textAlign: 'left',
-    marginBottom: 24,
   },
   fieldset: {
-    color: primary,
-    border: `solid 1px ${primary}`,
     borderRadius: 8,
-    marginBottom: 32,
+    border: `solid 2px ${theme.palette.secondary.dark}`,
   },
   legend: {
     padding: '0 10px',
   },
+  radio: {
+    padding: 32,
+  },
   form: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: '1fr 0.5fr 0.5fr',
     gridColumnGap: 32,
     gridRowGap: 24,
-    padding: 40,
-  },
-  personal: {
+    padding: 32,
     gridTemplateAreas: `
-      "field-name ."
-      "field-cpf field-phone"
-      "field-email field-password"
-    `,
-  },
-  address: {
-    gridTemplateAreas: `
-      "field-cep field-district"
-      "field-street field-number"
-      "field-complement ."
+      "field-name field-name field-birth"
+      "field-cpf field-rg field-rg"
+      "field-email field-email field-phone"
     `,
   },
   fieldName: {
@@ -163,45 +128,22 @@ const useStyles = makeStyles({
   fieldCpf: {
     gridArea: "field-cpf",
   },
+  fieldRg: {
+    gridArea: "field-rg",
+  },
+  fieldBirth: {
+    gridArea: "field-birth",
+  },
   fieldPhone: {
     gridArea: "field-phone",
   },
   fieldEmail: {
     gridArea: "field-email",
   },
-  fieldPassword: {
-    gridArea: "field-password",
-  },
-  fieldCep: {
-    gridArea: "field-cep",
-  },
-  fieldDistrict: {
-    gridArea: "field-district",
-  },
-  fieldStreet: {
-    gridArea: "field-street",
-  },
-  fieldNumber: {
-    gridArea: "field-number",
-  },
-  fieldComplement: {
-    gridArea: "field-complement",
-  },
-  submit: {
-    display: 'flex',
-    justifyContent: 'right',
-  },
   button: {
-    color: gray100,
-    backgroundColor: primary,
-    padding: '8px 16px',
-    borderRadius: 8,
-
-    '&:hover': {
-      backgroundColor: primary,
-      boxShadow: '0 4px 1em gray',
-    }
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
-})
+}));
 
 export default Register;

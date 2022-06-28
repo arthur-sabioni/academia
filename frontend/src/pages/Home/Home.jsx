@@ -1,56 +1,52 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, makeStyles } from '@material-ui/core';
-import { primary, gray200 } from '../../Utils/colors';
+import { Button, ThemeProvider } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import Header from '../../components/Header/Header';
 
 const Home = () => {
-  const { container, containerHome, title, subtitle, button } = useStyles();
+  const theme = useTheme();
+
+  const { home, content, title } = useStyles(theme);
+
   const navigate = useNavigate();
 
   return (
-    <div className={container}>
-      <Header cartDisabled={true} />
-      <div className={containerHome}>
+    <ThemeProvider theme={theme}>
+      <Header />
+      <div className={home}>
         <img alt="Logo da academia" src="iconeacademia.png" height="256" width="256" />
-        <div>
+        <div className={content}>
           <div className={title}>Academia</div>
-          <div className={subtitle}>Bora ficar monstros?</div>
-          <Button className={button} variant="contained" onClick={() => navigate('plans')}>Ver planos</Button>
+          <div>Bora ficar monstros?</div>
+          <Button variant="contained" onClick={() => navigate('plans')}>Ver planos</Button>
         </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 
-const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexFlow: 'column',
-    height: '100vh',
-  },
-  containerHome: {
+const useStyles = makeStyles((theme) => ({
+  home: {
     flexGrow: 1,
     flexBasis: 'auto',
     display: 'flex',
     alignItems: 'center',
     gap: 40,
     paddingLeft: 128,
-    backgroundColor: primary,
-    color: gray200,
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.thirdy.light,
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 16,
+    fontSize: 24,
   },
   title: {
     fontSize: 56,
   },
-  subtitle: {
-    fontSize: 24,
-  },
-  button: {
-    backgroundColor: `${gray200} !important`,
-    padding: '8px 16px',
-    borderRadius: 8,
-    marginTop: 24,
-  }
-})
+}));
 
 export default Home;

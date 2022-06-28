@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, Button } from '@material-ui/core';
+import { Button } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import GymContext from '../../context/GymContext.js';
 import { useContext } from 'react';
 import { gray100, primary } from '../../Utils/colors.js';

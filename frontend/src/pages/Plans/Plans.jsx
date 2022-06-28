@@ -1,14 +1,17 @@
 import React, { useEffect } from "react";
 import { useHttp } from "../../hooks";
-import { Grid, Paper, makeStyles, CircularProgress } from "@material-ui/core";
+import { makeStyles } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
+import { Grid, Paper, CircularProgress, ThemeProvider } from "@mui/material";
 import Header from "../../components/Header/Header";
 import { requestConfigPlans } from '../../Utils/requestsConfigs';
-import { secondary } from '../../Utils/colors';
 
 const Plans = () => {
-  const { container, grid, card, paper, progress } = useStyles();
+  const theme = useTheme();
 
-  const { loading, error, data, sendRequest } = useHttp('');
+  const { grid, card, paper, modality, paymentFrequencies, trainingFrequencies } = useStyles(theme);
+
+  const { loading, error, data, sendRequest } = useHttp([]);
 
   useEffect(() => {
     sendRequest(requestConfigPlans());
@@ -22,8 +25,8 @@ const Plans = () => {
           paymentFrequency: 'Mensal',
           trainingFrequencies: [
             {
-              trainingFrequency: '7x semana',
-              price: 'R$125,00',
+              trainingFrequency: '7',
+              price: '125,00',
             }
           ],
         },
@@ -31,8 +34,8 @@ const Plans = () => {
           paymentFrequency: 'Semestral',
           trainingFrequencies: [
             {
-              trainingFrequency: '7x semana',
-              price: '6x R$112,50',
+              trainingFrequency: '7',
+              price: '112,50',
             }
           ],
         },
@@ -40,8 +43,8 @@ const Plans = () => {
           paymentFrequency: 'Anual',
           trainingFrequencies: [
             {
-              trainingFrequency: '7x semana',
-              price: '12x R$106,25',
+              trainingFrequency: '7',
+              price: '106,25',
             }
           ],
         }
@@ -54,12 +57,12 @@ const Plans = () => {
           paymentFrequency: 'Mensal',
           trainingFrequencies: [
             {
-              trainingFrequency: '2x semana',
-              price: 'R$215,00',
+              trainingFrequency: '2',
+              price: '215,00',
             },
             {
-              trainingFrequency: '3x semana',
-              price: 'R$229,00',
+              trainingFrequency: '3',
+              price: '229,00',
             }
           ],
         },
@@ -67,12 +70,12 @@ const Plans = () => {
           paymentFrequency: 'Semestral',
           trainingFrequencies: [
             {
-              trainingFrequency: '2x semana',
-              price: '6x R$193,50',
+              trainingFrequency: '2',
+              price: '193,50',
             },
             {
-              trainingFrequency: '3x semana',
-              price: '6x R$206,10',
+              trainingFrequency: '3',
+              price: '206,10',
             }
           ],
         },
@@ -80,12 +83,12 @@ const Plans = () => {
           paymentFrequency: 'Anual',
           trainingFrequencies: [
             {
-              trainingFrequency: '2x semana',
-              price: '12x R$182,75',
+              trainingFrequency: '2',
+              price: '182,75',
             },
             {
-              trainingFrequency: '3x semana',
-              price: '12x R$189,00',
+              trainingFrequency: '3',
+              price: '189,00',
             }
           ],
         }
@@ -98,8 +101,8 @@ const Plans = () => {
           paymentFrequency: 'Mensal',
           trainingFrequencies: [
             {
-              trainingFrequency: '3x semana',
-              price: 'R$155,00',
+              trainingFrequency: '3',
+              price: '155,00',
             },
           ],
         },
@@ -107,8 +110,8 @@ const Plans = () => {
           paymentFrequency: 'Semestral',
           trainingFrequencies: [
             {
-              trainingFrequency: '3x semana',
-              price: '6x R$139,00',
+              trainingFrequency: '3',
+              price: '139,00',
             },
           ],
         },
@@ -116,8 +119,8 @@ const Plans = () => {
           paymentFrequency: 'Anual',
           trainingFrequencies: [
             {
-              trainingFrequency: '3x semana',
-              price: '12x R$130,00',
+              trainingFrequency: '3',
+              price: '130,00',
             },
           ],
         }
@@ -125,62 +128,89 @@ const Plans = () => {
     },
   ];
 
+  const getFormattedPrice = (paymentFrequency, price) => {
+    let formattedPrice = `R$${price}`;
+    switch (paymentFrequency) {
+      case 'Anual':
+        return `12 parcelas de ${formattedPrice}`;
+      case 'Semestral':
+        return `6 parcelas de ${formattedPrice}`;
+      default:
+        return `1 parcela de ${formattedPrice}`;
+    }
+  };
+
   return (
-    <div className={container}>
+    <ThemeProvider theme={theme}>
       <Header />
       <Grid className={grid} container>
         {
-          loading ? <CircularProgress className={progress} /> :
+          loading ? <CircularProgress /> :
             plans.map(plan => (
               <Grid className={card} item xs={4}>
                 <Paper className={paper} elevation={6}>
-                  <div>{plan.modality}</div>
+                  <div className={modality}>{plan.modality}</div>
                   {plan.paymentFrequencies.map(t => (
-                    <>
+                    <div className={paymentFrequencies}>
                       <div>{t.paymentFrequency}</div>
                       {
                         t.trainingFrequencies.map(c => (
-                          <>
-                            <div>{c.trainingFrequency}</div>
-                            <div>{c.price}</div>
-                          </>
+                          <div className={trainingFrequencies}>
+                            <div>{`${c.trainingFrequency}x na semana`}</div>
+                            <div>{getFormattedPrice(t.paymentFrequency, c.price)}</div>
+                          </div>
                         ))
                       }
-                    </>
+                    </div>
                   ))}
                 </Paper>
               </Grid>
             ))
         }
       </Grid>
-    </div>
+    </ThemeProvider>
   );
 };
 
-const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexFlow: 'column',
-    height: '100%',
-  },
+const useStyles = makeStyles((theme) => ({
   grid: {
     flexGrow: 1,
     flexBasis: 'auto',
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
   card: {
-    height: 400,
+    height: 500,
     padding: 32,
   },
   paper: {
     height: '100%',
-    textAlign: 'center',
+    padding: 24,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  progress: {
-    color: secondary,
+  modality: {
+    fontSize: 24,
+    fontWeight: 600,
+    color: theme.palette.primary.main,
   },
-});
+  paymentFrequencies: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 24,
+    fontWeight: 500,
+  },
+  trainingFrequencies: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    rowGap: 2,
+    marginTop: 8,
+    fontWeight: 300,
+  },
+}));
 
 export default Plans;

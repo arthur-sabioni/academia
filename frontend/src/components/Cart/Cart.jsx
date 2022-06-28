@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
-import { Button, makeStyles, CircularProgress } from "@material-ui/core";
+import { Button, CircularProgress } from "@mui/material";
+import { makeStyles } from '@mui/styles';
 import CartItem from "./CartItem";
 import React from "react"
 import Modal from "../../UI/Modal"

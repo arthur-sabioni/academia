@@ -1,27 +1,28 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHttp } from '../../hooks';
-import { makeStyles, Button, TextField, CircularProgress, RadioGroup, Radio, FormControlLabel, FormLabel, FormControl } from '@material-ui/core';
-import { gray100, primary, secondary } from '../../Utils/colors';
+import { Button, TextField, CircularProgress, RadioGroup, Radio, FormControlLabel, FormLabel, FormControl, ThemeProvider } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { requestConfigLogin } from '../../Utils/requestsConfigs';
 import GymContext from '../../context/GymContext';
 import Header from '../../components/Header/Header';
 
 const Login = () => {
-  const CLIENT = 'cliente';
+  const theme = useTheme();
 
-  const { container, containerLogin, progress, title, radio, form, field, button } = useStyles();
+  const { login, title, form } = useStyles(theme);
 
   const navigate = useNavigate();
 
   const context = useContext(GymContext);
   const { addToken } = context;
 
-  const { loading, data, sendRequest } = useHttp({});
+  const { loading, data, sendRequest } = useHttp();
 
   const [loginInvalid, setLoginInvalid] = useState(false);
   const [loginData, setLoginData] = useState({
-    type: CLIENT,
+    type: 'cliente',
     email: '',
     password: '',
   });
@@ -33,7 +34,7 @@ const Login = () => {
     }
   }, [data]);
 
-  const login = () => {
+  const logar = () => {
     if (!loginInvalid)
       sendRequest(requestConfigLogin(loginData));
   }
@@ -47,89 +48,56 @@ const Login = () => {
       setLoginInvalid(loginData.email.match(/.+@.+/) === null);
   }
 
-  const getRadio = () => <Radio color="default" />;
+  const getRadio = () => <Radio color="secondary" />;
 
   return (
-    <div className={container}>
-      <Header loginDisabled={true} cartDisabled={true} />
-      <div className={containerLogin}>
-        {loading ? <CircularProgress className={progress} /> :
+    <ThemeProvider theme={theme}>
+      <Header />
+      <div className={login}>
+        {loading ? <CircularProgress /> :
           <>
             <div className={title}>Login</div>
-            <FormControl className={radio}>
-              <FormLabel id="demo-row-radio-buttons-group-label" focused={false}>Logar como:</FormLabel>
-              < RadioGroup
+            <FormControl>
+              <FormLabel color="secondary" focused={true}>Logar como:</FormLabel>
+              <RadioGroup
                 row
-                name="row-radio-buttons-group"
-                value={CLIENT}
+                value={loginData.type}
                 onChange={event => handleChange(event, 'type')}
               >
                 <FormControlLabel value="cliente" control={getRadio()} label="Cliente" />
                 <FormControlLabel value="funcionario" control={getRadio()} label="Funcionário" />
               </RadioGroup >
             </FormControl >
-            <div className={form}>
-              <TextField className={field} id="text-field-email" variant="outlined" label="E-mail" onChange={event => handleChange(event, 'email')} />
+            <FormControl className={form}>
+              <TextField variant="outlined" color="secondary" label="E-mail" onChange={event => handleChange(event, 'email')} />
               {loginInvalid ? <div>E-mail inválido</div> : <></>}
-              <TextField type="password" className={field} id="text-field-password" variant="outlined" label="Senha" onChange={event => handleChange(event, 'password')} />
-              <Button className={button} variant="contained" onClick={() => login()}>Entrar</Button>
-            </div>
+              <TextField variant="outlined" color="secondary" type="password" label="Senha" onChange={event => handleChange(event, 'password')} />
+              <Button variant="contained" color="secondary" onClick={() => logar()}>Entrar</Button>
+            </FormControl>
           </>
         }
       </div >
-    </div >
+    </ThemeProvider>
   );
 };
 
-const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexFlow: 'column',
-    height: '100%',
-    backgroundColor: `${gray100}`,
-  },
-  containerLogin: {
-    padding: 32,
+const useStyles = makeStyles((theme) => ({
+  login: {
     flexGrow: 1,
     flexBasis: 'auto',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-  },
-  progress: {
-    color: secondary,
+    gap: 24,
   },
   title: {
     fontSize: 32,
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  radio: {
-    width: 400,
-    marginBottom: 24,
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
     alignItems: 'flex-end',
     gap: 24,
   },
-  field: {
-    width: 400,
-  },
-  button: {
-    width: 'fit-content',
-    color: gray100,
-    backgroundColor: primary,
-    padding: '8px 16px',
-    borderRadius: 8,
-
-    '&:hover': {
-      backgroundColor: primary,
-      boxShadow: '0 4px 1em gray',
-    }
-  },
-})
+}))
 
 export default Login;

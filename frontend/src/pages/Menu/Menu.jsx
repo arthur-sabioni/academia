@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Paper, Tab, Tabs, makeStyles } from "@material-ui/core";
+import { Paper, Tab, Tabs } from "@mui/material";
+import { makeStyles } from '@mui/styles';
 import Header from "../../components/Header/Header";
 import Cart from "../../components/Cart/Cart";
 import MenuSection from "../../components/FoodMenu/MenuSection"
@@ -52,7 +53,6 @@ const useStyles = makeStyles({
   containerMenu: {
     flexGrow: 1,
     flexBasis: 'auto',
-    backgroundColor: "#f5f5f5",
     justifyContent: "center",
   },
   tabs: {

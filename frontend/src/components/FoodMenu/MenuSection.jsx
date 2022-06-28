@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import useHttp from "../../hooks/useHttp";
-import { makeStyles, CircularProgress } from "@material-ui/core";
-import { gray100, primary } from "../../Utils/colors";
+import { CircularProgress } from "@mui/material";
+import { makeStyles } from '@mui/styles';
+import { primary } from "../../Utils/colors";
 import Item from "./Item";
 import { requestConfigPromotions, requestConfigFoods, requestConfigDrinks } from "../../Utils/requestsConfigs";
 
@@ -73,7 +74,6 @@ const useStyles = makeStyles({
     height: '100%',
     justifyContent: "space-around",
     alignSelf: "center",
-    backgroundColor: "#f5f5f5",
   }),
   progress: ({ value, index }) => ({
     margin: 'auto',

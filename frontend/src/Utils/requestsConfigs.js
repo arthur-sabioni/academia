@@ -1,4 +1,4 @@
-const baseUrl = 'https://backendpizzaria.herokuapp.com/api/v1';
+const baseUrl = 'https://backendacademia.herokuapp.com/api/v1';
 
 export const requestConfigLogin = data => {
   const { email, password } = data;
@@ -14,17 +14,18 @@ export const requestConfigLogin = data => {
 };
 
 export const requestConfigRegister = data => {
-  const { name, cpf, email, phone, password } = data;
+  const { name, cpf, rg, birth, email, phone } = data;
   return {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=UTF-8' },
     url: `${baseUrl}/cliente/novo`,
     body: {
-      nome: name,
+      name: name,
       cpf: cpf,
+      rg: rg,
+      birth: birth,
       email: email,
-      telefone: phone,
-      senha: password,
+      phone: phone,
     },
   };
 };

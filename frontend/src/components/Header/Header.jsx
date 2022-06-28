@@ -1,11 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, makeStyles } from '@material-ui/core';
-import { secondary, gray100 } from '../../Utils/colors';
+import { Button, ThemeProvider } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 
-const Header = ({ loginDisabled, registerDisabled, cartDisabled }) => {
-  const { containerHeader, logo, title, buttons, button } = useStyles();
+const Header = () => {
+  const theme = useTheme();
+
+  const { header, logo, buttons } = useStyles(theme);
 
   const navigate = useNavigate();
 
@@ -13,79 +15,55 @@ const Header = ({ loginDisabled, registerDisabled, cartDisabled }) => {
   const { pathname } = location;
 
   return (
-    <div className={containerHeader}>
-      {pathname === '/' ?
-        <div></div>
-        :
-        <div className={logo} onClick={() => navigate('/')}>
-          <img alt="Logo da pizzaria" src="/iconeacademia.png" height="32" width="32" />
-          <div className={title}>Academia</div>
-        </div>
-      }
-
-      {false ? //token
-        <div className={buttons}>
-          <Button className={button} variant="contained" onClick={() => { navigate('/') }}>Sair</Button>
-        </div>
-        :
-        <>
-          <div className={buttons}>
-            <Button className={button} variant="contained" disabled={loginDisabled} onClick={() => { navigate('/login') }}>Login</Button>
-            {/* <Button className={button} variant="contained" disabled={registerDisabled} onClick={() => { navigate('/register') }}>Cadastrar</Button> */}
+    <ThemeProvider theme={theme}>
+      <div className={header}>
+        {pathname === '/' ?
+          <div></div>
+          :
+          <div className={logo} onClick={() => navigate('/')}>
+            <img alt="Logo da academia" src="/iconeacademia.png" height="32" width="32" />
+            <span>Academia</span>
           </div>
-        </>
-      }
-    </div>
+        }
+
+        {false ? //token
+          <div className={buttons}>
+            <Button variant="contained" onClick={() => { navigate('/') }}>Sair</Button>
+          </div>
+          :
+          <div className={buttons}>
+            <Button variant="contained" disabled={pathname === '/login'} onClick={() => { navigate('/login') }}>Login</Button>
+            <Button variant="contained" disabled={pathname === '/register'} onClick={() => { navigate('/register') }}>Cadastrar</Button>
+          </div>
+        }
+      </div>
+    </ThemeProvider>
   );
 };
 
-Header.defaultProps = {
-  loginDisabled: false,
-  registerDisabled: false,
-  cartDisabled: false,
-  homeConfig: false,
-};
-
-Header.propTypes = {
-  loginDisabled: PropTypes.bool,
-  registerDisabled: PropTypes.bool,
-  cartDisabled: PropTypes.bool,
-};
-
-const useStyles = makeStyles({
-  containerHeader: {
+const useStyles = makeStyles((theme) => ({
+  header: {
     flexGrow: 0,
     flexBasis: 'auto',
     display: 'grid',
-    gridColumn: 3,
-    gridTemplateColumns: '4fr 1fr',
-    padding: 24,
-    backgroundColor: secondary,
-    color: gray100,
+    gridTemplateColumns: '1fr auto',
+    padding: '16px 32px',
     boxShadow: '0 6px 1em gray',
     fontWeight: 500,
+    color: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.thirdy.main,
   },
   logo: {
     display: 'flex',
-    alignItems: 'center',
     gap: 8,
-    marginLeft: 24,
-    cursor: 'pointer',
-  },
-  title: {
     fontSize: 32,
+    alignItems: 'center',
+    cursor: 'pointer',
   },
   buttons: {
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'end',
     gap: 24,
   },
-  button: {
-    backgroundColor: `${gray100} !important`,
-    padding: '8px 16px',
-    borderRadius: 8,
-  }
-})
+}));
 
 export default Header;

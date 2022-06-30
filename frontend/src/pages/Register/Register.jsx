@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHttp } from '../../hooks';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
-import { Button, TextField, CircularProgress, RadioGroup, FormControlLabel, Radio, ThemeProvider } from '@mui/material';
+import { Button, TextField, CircularProgress, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -14,7 +14,7 @@ const Register = () => {
 
   const { register, title, fieldset, legend, radio, form, fieldName, fieldPhone, fieldCpf, fieldRg, fieldBirth, fieldEmail, button } = useStyles(theme);
 
-  const { loading, error, data, sendRequest } = useHttp('');
+  const { loading, sendRequest } = useHttp('');
 
   const [personalData, setPersonalData] = useState({
     type: 'cliente',
@@ -37,7 +37,7 @@ const Register = () => {
   const getRadio = () => <Radio color="secondary" />;
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Header />
       <div className={register}>
         {
@@ -84,7 +84,7 @@ const Register = () => {
             </>
         }
       </div>
-    </ThemeProvider>
+    </>
   );
 };
 

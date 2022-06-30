@@ -1,17 +1,11 @@
 import React from 'react';
 
 const GymContext = React.createContext({
-  token: "",
-  address: "",
-  addressId: 0,
-  items: [],
-  totalAmount: 0,
-  addItem: (item) => { },
-  addAddress: (address) => { },
-  addAddressId: (id) => { },
-  removeItem: (id) => { },
-  clearCart: () => { },
-  addToken: (token) => { }
+  token: null,
+  userType: null,
+  addToken: token => { },
+  addUserType: userType => { },
+  clear: () => { },
 });
 
 export default GymContext;

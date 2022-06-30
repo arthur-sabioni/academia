@@ -1,32 +1,20 @@
-const baseUrl = 'https://backendacademia.herokuapp.com/api/v1';
+const baseUrl = 'https://academiaback.herokuapp.com/api/v1';
 
 export const requestConfigLogin = data => {
-  const { email, password } = data;
   return {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    url: `${baseUrl}/cliente/login`,
-    body: {
-      email: email,
-      senha: password,
-    },
+    url: `${baseUrl}/login`,
+    body: { ...data },
   };
 };
 
 export const requestConfigRegister = data => {
-  const { name, cpf, rg, birth, email, phone } = data;
   return {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    url: `${baseUrl}/cliente/novo`,
-    body: {
-      name: name,
-      cpf: cpf,
-      rg: rg,
-      birth: birth,
-      email: email,
-      phone: phone,
-    },
+    url: `${baseUrl}/register`,
+    body: { ...data },
   };
 };
 

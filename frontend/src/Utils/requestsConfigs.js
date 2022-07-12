@@ -25,3 +25,11 @@ export const requestConfigPlans = () => {
     url: `${baseUrl}/plans`,
   };
 };
+
+export const requestConfigGangs = () => {
+  return {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+    url: `${baseUrl}/gangs`,
+  };
+};

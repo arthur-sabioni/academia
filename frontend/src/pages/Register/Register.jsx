@@ -17,7 +17,7 @@ const Register = () => {
   const { loading, sendRequest } = useHttp('');
 
   const [personalData, setPersonalData] = useState({
-    type: 'cliente',
+    type: 'client',
     name: '',
     cpf: '',
     rg: '',
@@ -52,10 +52,10 @@ const Register = () => {
                   value={personalData.type}
                   onChange={event => handleChange(event, 'type')}
                 >
-                  <FormControlLabel value="cliente" control={getRadio()} label="Cliente" />
-                  <FormControlLabel value="secretaria" control={getRadio()} label="Secretária" />
-                  <FormControlLabel value="professor" control={getRadio()} label="Professor" />
-                  <FormControlLabel value="medico" control={getRadio()} label="Médico" />
+                  <FormControlLabel value="client" control={getRadio()} label="Cliente" />
+                  <FormControlLabel value="secretary" control={getRadio()} label="Secretária" />
+                  <FormControlLabel value="teacher" control={getRadio()} label="Professor" />
+                  <FormControlLabel value="doctor" control={getRadio()} label="Médico" />
                 </RadioGroup >
               </fieldset>
               <fieldset className={fieldset}>

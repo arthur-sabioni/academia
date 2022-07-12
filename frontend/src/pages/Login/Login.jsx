@@ -23,7 +23,7 @@ const Login = () => {
   const [loginData, setLoginData] = useState({
     cpf: '',
     password: '',
-    type: 'cliente',
+    type: 'client',
   });
 
   useEffect(() => {
@@ -58,8 +58,8 @@ const Login = () => {
                 value={loginData.type}
                 onChange={event => handleChange(event, 'type')}
               >
-                <FormControlLabel value="cliente" control={getRadio()} label="Cliente" />
-                <FormControlLabel value="funcionario" control={getRadio()} label="Funcionário" />
+                <FormControlLabel value="client" control={getRadio()} label="Cliente" />
+                <FormControlLabel value="employer" control={getRadio()} label="Funcionário" />
               </RadioGroup >
             </FormControl >
             <FormControl className={form}>

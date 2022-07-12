@@ -7,6 +7,7 @@ import Home from './pages/Home/Home';
 import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
 import Plans from './pages/Plans/Plans';
+import Gangs from './pages/Gangs/Gangs';
 import { background, primary, secondary, thirdy } from './Utils/colors';
 import './App.css';
 
@@ -113,6 +114,7 @@ function AppContent() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/plans' element={<Plans />} />
+          <Route path='/gangs' element={<Gangs />} />
           <Route path='/' element={<Home />} />
         </Routes>
       </BrowserRouter>

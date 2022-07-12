@@ -9,6 +9,7 @@ import Login from './pages/Login/Login';
 import Plans from './pages/Plans/Plans';
 import { background, primary, secondary, thirdy } from './Utils/colors';
 import './App.css';
+import Professor from './pages/Professor/Professor';
 
 const theme = createTheme({
   palette: {
@@ -113,6 +114,7 @@ function AppContent() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/plans' element={<Plans />} />
+          <Route path='/professor' element={<Professor />} />
           <Route path='/' element={<Home />} />
         </Routes>
       </BrowserRouter>

@@ -22,15 +22,27 @@ export const requestConfigPlans = () => {
   return {
     method: 'GET',
     headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    url: `${baseUrl}/plans`,
+    url: `${baseUrl}/common/schemes`,
   };
 };
 
-export const requestConfigGangs = () => {
+export const requestConfigClasses = () => {
   return {
     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiQ1BGIjoiOTI2LjQ0MC44MzYtMzAiLCJ0eXBlIjoic2VjcmV0YXJ5IiwiaWF0IjoxNjU3MzEyODg5fQ.Yx8eEonyAZhbm7aAgKWF0Q6lIS36Wr05pqnseqtBWMg`
+    },
+    url: `${baseUrl}/secretary/classes`,
+  };
+};
+
+export const requestConfigMatriculation = data => {
+  return {
+    method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    url: `${baseUrl}/gangs`,
+    url: `${baseUrl}/matriculation`,
+    body: { ...data },
   };
 };
 

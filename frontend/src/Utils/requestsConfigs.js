@@ -57,12 +57,11 @@ export const requestConfigExercises = (token) => {
   };
 };
 
-export const requestConfigConfirmExercises = (token, data) => {
+export const requestConfigConfirmExercises = (data) => {
   return {
     method: 'POST',
     headers: { 
-    'Content-Type': 'application/json; charset=UTF-8', 
-    'Authorization': `Bearer ${token}`
+    'Content-Type': 'application/json; charset=UTF-8'
    },
     body: data,
     url: `${baseUrl}/teacher/training`,

@@ -33,3 +33,26 @@ export const requestConfigGangs = () => {
     url: `${baseUrl}/gangs`,
   };
 };
+
+export const requestConfigExercises = (token) => {
+  return {
+    method: 'GET',
+    headers: { 
+    'Content-Type': 'application/json; charset=UTF-8', 
+    'Authorization': `Bearer ${token}`
+   },
+    url: `${baseUrl}/teacher/exercises`,
+  };
+};
+
+export const requestConfigConfirmExercises = (token, data) => {
+  return {
+    method: 'POST',
+    headers: { 
+    'Content-Type': 'application/json; charset=UTF-8', 
+    'Authorization': `Bearer ${token}`
+   },
+    body: data,
+    url: `${baseUrl}/teacher/training`,
+  };
+};

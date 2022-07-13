@@ -51,7 +51,8 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 6px 1em gray',
     fontWeight: 500,
     color: theme.palette.secondary.dark,
-    backgroundColor: theme.palette.thirdy.main,
+    backgroundColor: theme.palette.secondary.main,
+    borderBottomColor: theme.palette.primary.main,
   },
   logo: {
     display: 'flex',
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 32,
     alignItems: 'center',
     cursor: 'pointer',
+    fontFamily: 'Quantico'
   },
   buttons: {
     display: 'flex',

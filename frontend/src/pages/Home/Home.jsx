@@ -8,7 +8,7 @@ import Header from '../../components/Header/Header';
 const Home = () => {
   const theme = useTheme();
 
-  const { home, content, title } = useStyles(theme);
+  const { home, content, title, subtitle } = useStyles(theme);
 
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const Home = () => {
         <img alt="Logo da academia" src="iconeacademia.png" height="256" width="256" />
         <div className={content}>
           <div className={title}>Academia</div>
-          <div>Bora ficar monstros?</div>
+          <div className={subtitle}>Bora ficar monstros?</div>
           <Button variant="contained" onClick={() => navigate('plans')}>Ver planos</Button>
         </div>
       </div>
@@ -46,6 +46,12 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 56,
+    fontFamily: 'Quantico',
+    fontStyle: 'italic',
+  },
+  subtitle:{
+    fontFamily: 'Quantico',
+    fontStyle: 'italic',
   },
 }));
 

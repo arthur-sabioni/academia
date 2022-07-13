@@ -10,7 +10,7 @@ export const primary = {
 };
 
 export const secondary = {
-  main: '#2C3F59',
+  main: '#1f1f1f',
   light: '#576986',
   dark: '#001930',
 };

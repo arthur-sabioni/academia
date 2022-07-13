@@ -1,20 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useHttp } from "../../hooks";
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
 import { Paper, CircularProgress, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
 import Header from "../../components/Header/Header";
 import { requestConfigClasses } from '../../Utils/requestsConfigs';
+import GymContext from "../../context/GymContext";
 
 const Gangs = () => {
   const theme = useTheme();
 
   const { title, disabled, enabled } = useStyles(theme);
 
+  const context = useContext(GymContext);
+  const { token } = context;
+
   const { loading, data, sendRequest } = useHttp([]);
 
   useEffect(() => {
-    sendRequest(requestConfigClasses());
+    sendRequest(requestConfigClasses(token));
   }, [])
 
   const days = ['', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];

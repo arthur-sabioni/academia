@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useHttp } from "../../hooks";
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
-import { Grid, Paper, CircularProgress, ThemeProvider } from "@mui/material";
+import { Grid, Paper, CircularProgress } from "@mui/material";
 import Header from "../../components/Header/Header";
 import { requestConfigPlans } from '../../Utils/requestsConfigs';
 
@@ -141,7 +141,7 @@ const Plans = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Header />
       <Grid className={grid} container>
         {
@@ -168,7 +168,7 @@ const Plans = () => {
             ))
         }
       </Grid>
-    </ThemeProvider>
+    </>
   );
 };
 

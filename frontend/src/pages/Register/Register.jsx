@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHttp } from '../../hooks';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
-import { Button, TextField, CircularProgress, RadioGroup, FormControlLabel, Radio, ThemeProvider } from '@mui/material';
+import { Button, TextField, CircularProgress, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -14,10 +14,10 @@ const Register = () => {
 
   const { register, title, fieldset, legend, radio, form, fieldName, fieldPhone, fieldCpf, fieldRg, fieldBirth, fieldEmail, button } = useStyles(theme);
 
-  const { loading, error, data, sendRequest } = useHttp('');
+  const { loading, sendRequest } = useHttp('');
 
   const [personalData, setPersonalData] = useState({
-    type: 'cliente',
+    type: 'client',
     name: '',
     cpf: '',
     rg: '',
@@ -37,7 +37,7 @@ const Register = () => {
   const getRadio = () => <Radio color="secondary" />;
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Header />
       <div className={register}>
         {
@@ -52,10 +52,10 @@ const Register = () => {
                   value={personalData.type}
                   onChange={event => handleChange(event, 'type')}
                 >
-                  <FormControlLabel value="cliente" control={getRadio()} label="Cliente" />
-                  <FormControlLabel value="secretaria" control={getRadio()} label="Secretária" />
-                  <FormControlLabel value="professor" control={getRadio()} label="Professor" />
-                  <FormControlLabel value="medico" control={getRadio()} label="Médico" />
+                  <FormControlLabel value="client" control={getRadio()} label="Cliente" />
+                  <FormControlLabel value="secretary" control={getRadio()} label="Secretária" />
+                  <FormControlLabel value="teacher" control={getRadio()} label="Professor" />
+                  <FormControlLabel value="doctor" control={getRadio()} label="Médico" />
                 </RadioGroup >
               </fieldset>
               <fieldset className={fieldset}>
@@ -84,7 +84,7 @@ const Register = () => {
             </>
         }
       </div>
-    </ThemeProvider>
+    </>
   );
 };
 

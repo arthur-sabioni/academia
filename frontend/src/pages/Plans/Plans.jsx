@@ -11,132 +11,21 @@ const Plans = () => {
 
   const { grid, card, paper, modality, paymentFrequencies, trainingFrequencies } = useStyles(theme);
 
-  const { loading, error, data, sendRequest } = useHttp([]);
+  const { loading, data, sendRequest } = useHttp([]);
 
   useEffect(() => {
     sendRequest(requestConfigPlans());
   }, [])
 
-  const plans = [
-    {
-      modality: 'Musculação',
-      paymentFrequencies: [
-        {
-          paymentFrequency: 'Mensal',
-          trainingFrequencies: [
-            {
-              trainingFrequency: '7',
-              price: '125,00',
-            }
-          ],
-        },
-        {
-          paymentFrequency: 'Semestral',
-          trainingFrequencies: [
-            {
-              trainingFrequency: '7',
-              price: '112,50',
-            }
-          ],
-        },
-        {
-          paymentFrequency: 'Anual',
-          trainingFrequencies: [
-            {
-              trainingFrequency: '7',
-              price: '106,25',
-            }
-          ],
-        }
-      ],
-    },
-    {
-      modality: 'Natação',
-      paymentFrequencies: [
-        {
-          paymentFrequency: 'Mensal',
-          trainingFrequencies: [
-            {
-              trainingFrequency: '2',
-              price: '215,00',
-            },
-            {
-              trainingFrequency: '3',
-              price: '229,00',
-            }
-          ],
-        },
-        {
-          paymentFrequency: 'Semestral',
-          trainingFrequencies: [
-            {
-              trainingFrequency: '2',
-              price: '193,50',
-            },
-            {
-              trainingFrequency: '3',
-              price: '206,10',
-            }
-          ],
-        },
-        {
-          paymentFrequency: 'Anual',
-          trainingFrequencies: [
-            {
-              trainingFrequency: '2',
-              price: '182,75',
-            },
-            {
-              trainingFrequency: '3',
-              price: '189,00',
-            }
-          ],
-        }
-      ],
-    },
-    {
-      modality: 'Spinning, Crossfit, Ritmos',
-      paymentFrequencies: [
-        {
-          paymentFrequency: 'Mensal',
-          trainingFrequencies: [
-            {
-              trainingFrequency: '3',
-              price: '155,00',
-            },
-          ],
-        },
-        {
-          paymentFrequency: 'Semestral',
-          trainingFrequencies: [
-            {
-              trainingFrequency: '3',
-              price: '139,00',
-            },
-          ],
-        },
-        {
-          paymentFrequency: 'Anual',
-          trainingFrequencies: [
-            {
-              trainingFrequency: '3',
-              price: '130,00',
-            },
-          ],
-        }
-      ],
-    },
-  ];
-
   const getFormattedPrice = (paymentFrequency, price) => {
-    let formattedPrice = `R$${price}`;
+    let formattedPrice = `R$${price.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     switch (paymentFrequency) {
       case 'Anual':
-        return `12 parcelas de ${formattedPrice}`;
+        return `12 parcelas de ${formattedPrice} `;
       case 'Semestral':
-        return `6 parcelas de ${formattedPrice}`;
+        return `6 parcelas de ${formattedPrice} `;
       default:
-        return `1 parcela de ${formattedPrice}`;
+        return `1 parcela de ${formattedPrice} `;
     }
   };
 
@@ -146,7 +35,7 @@ const Plans = () => {
       <Grid className={grid} container>
         {
           loading ? <CircularProgress /> :
-            plans.map(plan => (
+            data.map(plan => (
               <Grid className={card} item xs={4}>
                 <Paper className={paper} elevation={6}>
                   <div className={modality}>{plan.modality}</div>

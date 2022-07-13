@@ -7,7 +7,9 @@ import Home from './pages/Home/Home';
 import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
 import Plans from './pages/Plans/Plans';
-import Gangs from './pages/Gangs/Gangs';
+import Classes from './pages/Classes/Classes';
+import Matriculation from './pages/Matriculation/Matriculation';
+import Training from './pages/Training/Training';
 import { background, primary, secondary, thirdy } from './Utils/colors';
 import './App.css';
 
@@ -114,7 +116,9 @@ function AppContent() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/plans' element={<Plans />} />
-          <Route path='/gangs' element={<Gangs />} />
+          <Route path='/classes' element={<Classes />} />
+          <Route path='/matriculation' element={<Matriculation />} />
+          <Route path='/training' element={<Training />} />
           <Route path='/' element={<Home />} />
         </Routes>
       </BrowserRouter>

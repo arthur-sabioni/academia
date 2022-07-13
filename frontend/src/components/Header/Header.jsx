@@ -1,43 +1,72 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, ThemeProvider } from '@mui/material';
+import { Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
+import GymContext from '../../context/GymContext';
 
 const Header = () => {
   const theme = useTheme();
 
   const { header, logo, buttons } = useStyles(theme);
 
+  const context = useContext(GymContext);
+  const { userType, addToken, addUserType } = context;
+
   const navigate = useNavigate();
 
   const location = useLocation();
   const { pathname } = location;
 
-  return (
-    <ThemeProvider theme={theme}>
-      <div className={header}>
-        {pathname === '/' ?
-          <div></div>
-          :
-          <div className={logo} onClick={() => navigate('/')}>
-            <img alt="Logo da academia" src="/iconeacademia.png" height="32" width="32" />
-            <span>Academia</span>
-          </div>
-        }
+  const logout = () => {
+    addToken(null);
+    addUserType(null);
+    navigate('/');
+  }
 
-        {false ? //token
-          <div className={buttons}>
-            <Button variant="contained" onClick={() => { navigate('/') }}>Sair</Button>
-          </div>
-          :
-          <div className={buttons}>
-            <Button variant="contained" disabled={pathname === '/login'} onClick={() => { navigate('/login') }}>Login</Button>
-            <Button variant="contained" disabled={pathname === '/register'} onClick={() => { navigate('/register') }}>Cadastrar</Button>
-          </div>
-        }
+  const getHeader = () => {
+    switch (userType) {
+      case "secretary":
+        return (
+          <>
+            <Button variant="contained" disabled={pathname === '/classes'} onClick={() => { navigate('/classes') }}>Turmas</Button>
+            <Button variant="contained" disabled={pathname === '/matriculation'} onClick={() => { navigate('/matriculation') }}>Matricula</Button>
+            <Button variant="contained" disabled={pathname === '/register'} onClick={() => { navigate('/register') }}>Cadastro</Button>
+            <Button variant="contained" onClick={() => logout()}>Sair</Button>
+          </>
+        );
+      case "teacher":
+        return (
+          <>
+            <Button variant="contained" disabled={pathname === '/training'} onClick={() => { navigate('/training') }}>Cadastrar Treino</Button>
+            <Button variant="contained" onClick={() => logout()}>Sair</Button>
+          </>
+        );
+      case "doctor":
+        return (<></>);
+      case "client":
+        return (<></>);
+      default:
+        return (
+          <Button variant="contained" disabled={pathname === '/login'} onClick={() => { navigate('/login') }}>Login</Button>
+        );
+    }
+  }
+
+  return (
+    <div className={header}>
+      {pathname === '/' ?
+        <div></div>
+        :
+        <div className={logo} onClick={() => navigate('/')}>
+          <img alt="Logo da academia" src="/iconeacademia.png" height="32" width="32" />
+          <span>Academia</span>
+        </div>
+      }
+      <div className={buttons}>
+        {getHeader()}
       </div>
-    </ThemeProvider>
+    </div>
   );
 };
 

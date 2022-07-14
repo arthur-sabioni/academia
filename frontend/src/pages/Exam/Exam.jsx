@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHttp } from '../../hooks';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
@@ -6,6 +6,7 @@ import { Button, TextField, CircularProgress, Checkbox, FormControlLabel } from 
 import { requestConfigConfirmExam } from '../../Utils/requestsConfigs';
 import Header from '../../components/Header/Header';
 import { examDefault } from '../../Utils/constants';
+import GymContext from '../../context/GymContext';
 
 const Exam = () => {
 
@@ -16,6 +17,9 @@ const Exam = () => {
   const { loading, error, data, sendRequest } = useHttp('');
 
   const [exam, setExam] = useState(examDefault);
+  
+  const context = useContext(GymContext);
+  const { token } = context;
 
   const examToRequest = {
     ...exam,
@@ -26,7 +30,7 @@ const Exam = () => {
     IMC: parseFloat(exam["IMC"]),
   }
 
-  const confirm = () => sendRequest(requestConfigConfirmExam("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiQ1BGIjoiNzExLjUzMi42NjYtNTIiLCJ0eXBlIjoiZG9jdG9yIiwiaWF0IjoxNjU3MjIyNzgwfQ.cOz1mKtF3ckcVDqm_9w9rDdofE8A5dfVgHDVyamQtAE",exam));
+  const confirm = () => sendRequest(requestConfigConfirmExam(token, exam));
 
   const handleChange = (event, field) =>
     setExam(currentPersonalData => ({

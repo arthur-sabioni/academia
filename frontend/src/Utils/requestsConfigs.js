@@ -80,3 +80,36 @@ export const requestConfigConfirmExam = (token, data) => {
     url: `${baseUrl}/doctor/`,
   };
 };
+
+export const requestConfigTraining = token => {
+  return {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    url: `${baseUrl}/client/training`,
+  };
+};
+
+export const requestConfigExam = token => {
+  return {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    url: `${baseUrl}/client/exam`,
+  };
+};
+
+export const requestConfigRegistrations = token => {
+  return {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    url: `${baseUrl}/client/registration`,
+  };
+};

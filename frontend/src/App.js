@@ -11,6 +11,7 @@ import Classes from './pages/Classes/Classes';
 import Matriculation from './pages/Matriculation/Matriculation';
 import Exam from './pages/Exam/Exam';
 import Training from './pages/Training/Training';
+import Informations from './pages/Informations/Informations';
 import { background, primary, secondary, thirdy } from './Utils/colors';
 import './App.css';
 
@@ -121,6 +122,7 @@ function AppContent() {
           <Route path='/matriculation' element={<Matriculation />} />
           <Route path='/exam' element={<Exam />} />
           <Route path='/training' element={<Training />} />
+          <Route path='/informations' element={<Informations />} />
           <Route path='/' element={<Home />} />
         </Routes>
       </BrowserRouter>

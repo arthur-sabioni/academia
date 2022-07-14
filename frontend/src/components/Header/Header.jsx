@@ -50,7 +50,11 @@ const Header = () => {
           </>
         );
       case "client":
-        return (<></>);
+        return (
+        <>
+          <Button variant="contained" disabled={pathname === '/informations'} onClick={() => { navigate('/informations') }}>Cadastrar Exame</Button>
+          <Button variant="contained" onClick={() => logout()}>Sair</Button>
+        </>);
       default:
         return (
           <Button variant="contained" disabled={pathname === '/login'} onClick={() => { navigate('/login') }}>Login</Button>

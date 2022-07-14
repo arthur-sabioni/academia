@@ -30,7 +30,7 @@ const Exam = () => {
     IMC: parseFloat(exam["IMC"]),
   }
 
-  const confirm = () => sendRequest(requestConfigConfirmExam(token, exam));
+  const confirm = () => sendRequest(requestConfigConfirmExam(token, examToRequest));
 
   const handleChange = (event, field) =>
     setExam(currentPersonalData => ({

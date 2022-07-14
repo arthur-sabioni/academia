@@ -10,6 +10,7 @@ import Plans from './pages/Plans/Plans';
 import Classes from './pages/Classes/Classes';
 import Matriculation from './pages/Matriculation/Matriculation';
 import Professor from './pages/Professor/Professor';
+import Exam from './pages/Exam/Exam';
 import { background, primary, secondary, thirdy } from './Utils/colors';
 import './App.css';
 
@@ -119,6 +120,7 @@ function AppContent() {
           <Route path='/classes' element={<Classes />} />
           <Route path='/matriculation' element={<Matriculation />} />
           <Route path='/professor' element={<Professor />} />
+          <Route path='/doctor' element={<Exam />} />
           <Route path='/' element={<Home />} />
         </Routes>
       </BrowserRouter>

@@ -4,7 +4,7 @@ export const requestConfigLogin = data => {
   return {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    url: `${baseUrl}/login`,
+    url: `${baseUrl}/common/login`,
     body: { ...data },
   };
 };
@@ -26,12 +26,12 @@ export const requestConfigPlans = () => {
   };
 };
 
-export const requestConfigClasses = () => {
+export const requestConfigClasses = token => {
   return {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiQ1BGIjoiOTI2LjQ0MC44MzYtMzAiLCJ0eXBlIjoic2VjcmV0YXJ5IiwiaWF0IjoxNjU3MzEyODg5fQ.Yx8eEonyAZhbm7aAgKWF0Q6lIS36Wr05pqnseqtBWMg`
+      'Authorization': `Bearer ${token}`
     },
     url: `${baseUrl}/secretary/classes`,
   };
@@ -46,23 +46,24 @@ export const requestConfigMatriculation = data => {
   };
 };
 
-export const requestConfigExercises = (token) => {
+export const requestConfigExercises = token => {
   return {
     method: 'GET',
-    headers: { 
-    'Content-Type': 'application/json; charset=UTF-8', 
-    'Authorization': `Bearer ${token}`
-   },
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
     url: `${baseUrl}/teacher/exercises`,
   };
 };
 
-export const requestConfigConfirmExercises = (data) => {
+export const requestConfigConfirmExercises = (token, data) => {
   return {
     method: 'POST',
-    headers: { 
-    'Content-Type': 'application/json; charset=UTF-8'
-   },
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
     body: data,
     url: `${baseUrl}/teacher/training`,
   };

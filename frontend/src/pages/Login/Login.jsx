@@ -21,7 +21,7 @@ const Login = () => {
   const { loading, data, sendRequest } = useHttp();
 
   const [loginData, setLoginData] = useState({
-    cpf: '',
+    CPF: '',
     password: '',
     type: 'client',
   });
@@ -30,7 +30,7 @@ const Login = () => {
     if (data && data.token) {
       addToken(data.token);
       addUserType(data.type);
-      navigate(`/home`);
+      navigate(`/`);
     }
   }, [data]);
 
@@ -63,7 +63,7 @@ const Login = () => {
               </RadioGroup >
             </FormControl >
             <FormControl className={form}>
-              <TextField variant="outlined" color="secondary" label="CPF" onChange={event => handleChange(event, 'cpf')} />
+              <TextField variant="outlined" color="secondary" label="CPF" onChange={event => handleChange(event, 'CPF')} />
               <TextField variant="outlined" color="secondary" type="password" label="Senha" onChange={event => handleChange(event, 'password')} />
               <Button variant="contained" color="secondary" onClick={() => logar()}>Entrar</Button>
             </FormControl>

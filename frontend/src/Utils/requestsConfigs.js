@@ -9,11 +9,14 @@ export const requestConfigLogin = data => {
   };
 };
 
-export const requestConfigRegister = data => {
+export const requestConfigRegister = (token, data) => {
   return {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    url: `${baseUrl}/register`,
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    url: `${baseUrl}/secretary/user`,
     body: { ...data },
   };
 };
@@ -72,10 +75,10 @@ export const requestConfigConfirmExercises = (token, data) => {
 export const requestConfigConfirmExam = (token, data) => {
   return {
     method: 'POST',
-    headers: { 
-    'Content-Type': 'application/json; charset=UTF-8', 
-    'Authorization': `Bearer ${token}`
-   },
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
     body: data,
     url: `${baseUrl}/doctor/`,
   };

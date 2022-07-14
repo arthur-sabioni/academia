@@ -1,32 +1,41 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHttp } from '../../hooks';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
-import { Button, TextField, CircularProgress, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Button, TextField, CircularProgress, RadioGroup, FormControlLabel, Radio, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { requestConfigRegister } from '../../Utils/requestsConfigs';
 import Header from '../../components/Header/Header';
+import GymContext from '../../context/GymContext';
 
 const Register = () => {
   const theme = useTheme();
 
-  const { register, title, fieldset, legend, radio, form, fieldName, fieldPhone, fieldCpf, fieldRg, fieldBirth, fieldEmail, button } = useStyles(theme);
+  const { register, title, fieldset, legend, radio, formPersonal, formPayment, fieldName, fieldPhone, fieldCpf, fieldRg, fieldBirth, fieldEmail, fieldCardNumber, fieldFlag, fieldOwnerName, button } = useStyles(theme);
+
+  const context = useContext(GymContext);
+  const { token } = context;
 
   const { loading, sendRequest } = useHttp('');
 
   const [personalData, setPersonalData] = useState({
     type: 'client',
     name: '',
-    cpf: '',
-    rg: '',
+    CPF: '',
+    RG: '',
     birth: null,
+    fone: '',
     email: '',
-    phone: '',
+    cardNumber: '',
+    flag: '',
+    ownerName: '',
   });
 
-  const registrar = () => sendRequest(requestConfigRegister(personalData));
+  const flagsOptions = ['Visa', 'MasterCard', 'Elo', 'Hipercard'];
+
+  const registrar = () => sendRequest(requestConfigRegister(token, personalData));
 
   const handleChange = (event, field) =>
     setPersonalData(currentPersonalData => ({
@@ -60,10 +69,10 @@ const Register = () => {
               </fieldset>
               <fieldset className={fieldset}>
                 <legend className={legend}>Dados pessoais</legend>
-                <div className={form}>
+                <div className={formPersonal}>
                   <TextField className={fieldName} variant="outlined" color="secondary" label="Nome" onChange={event => handleChange(event, 'name')} />
-                  <TextField className={fieldCpf} variant="outlined" color="secondary" label="CPF" onChange={event => handleChange(event, 'cpf')} />
-                  <TextField className={fieldRg} variant="outlined" color="secondary" label="RG" onChange={event => handleChange(event, 'rg')} />
+                  <TextField className={fieldCpf} variant="outlined" color="secondary" label="CPF" onChange={event => handleChange(event, 'CPF')} />
+                  <TextField className={fieldRg} variant="outlined" color="secondary" label="RG" onChange={event => handleChange(event, 'RG')} />
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                       label="Data de Nascimento"
@@ -74,8 +83,26 @@ const Register = () => {
                       renderInput={(params) => <TextField className={fieldBirth} variant="outlined" color="secondary" {...params} />}
                     />
                   </LocalizationProvider>
-                  <TextField className={fieldPhone} variant="outlined" color="secondary" label="Celular" onChange={event => handleChange(event, 'phone')} />
+                  <TextField className={fieldPhone} variant="outlined" color="secondary" label="Celular" onChange={event => handleChange(event, 'fone')} />
                   <TextField className={fieldEmail} variant="outlined" color="secondary" label="E-mail" onChange={event => handleChange(event, 'email')} />
+                </div>
+              </fieldset>
+              <fieldset className={fieldset}>
+                <legend className={legend}>Dados de pagamento</legend>
+                <div className={formPayment}>
+                  <TextField className={fieldCardNumber} variant="outlined" color="secondary" label="Número do cartão" onChange={event => handleChange(event, 'cardNumber')} />
+                  <FormControl className={fieldFlag} variant="outlined" color="secondary">
+                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <Select
+                      id="flag"
+                      label="Bandeira"
+                      value={personalData.flag}
+                      onChange={event => handleChange(event, 'flag')}
+                    >
+                      {flagsOptions.map(flag => <MenuItem value={flag}>{flag}</MenuItem>)}
+                    </Select>
+                  </FormControl>
+                  <TextField className={fieldOwnerName} variant="outlined" color="secondary" label="Nome do titular" onChange={event => handleChange(event, 'ownerName')} />
                 </div>
               </fieldset>
               <div className={button}>
@@ -111,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
   radio: {
     padding: 32,
   },
-  form: {
+  formPersonal: {
     display: 'grid',
     gridTemplateColumns: '1fr 0.5fr 0.5fr',
     gridColumnGap: 32,
@@ -121,6 +148,17 @@ const useStyles = makeStyles((theme) => ({
       "field-name field-name field-birth"
       "field-cpf field-rg field-rg"
       "field-email field-email field-phone"
+    `,
+  },
+  formPayment: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridColumnGap: 32,
+    gridRowGap: 24,
+    padding: 32,
+    gridTemplateAreas: `
+      "field-ownerName field-cardNumber"
+      "field-flag ."
     `,
   },
   fieldName: {
@@ -140,6 +178,15 @@ const useStyles = makeStyles((theme) => ({
   },
   fieldEmail: {
     gridArea: "field-email",
+  },
+  fieldCardNumber: {
+    gridArea: "field-cardNumber",
+  },
+  fieldFlag: {
+    gridArea: "field-flag",
+  },
+  fieldOwnerName: {
+    gridArea: "field-ownerName",
   },
   button: {
     display: 'flex',

@@ -92,7 +92,7 @@ const Register = () => {
                 <div className={formPayment}>
                   <TextField className={fieldCardNumber} variant="outlined" color="secondary" label="Número do cartão" onChange={event => handleChange(event, 'cardNumber')} />
                   <FormControl className={fieldFlag} variant="outlined" color="secondary">
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <InputLabel>Bandeira</InputLabel>
                     <Select
                       id="flag"
                       label="Bandeira"

@@ -40,12 +40,16 @@ export const requestConfigClasses = token => {
   };
 };
 
-export const requestConfigMatriculation = data => {
+export const requestConfigMatriculation = (token, data) => {
+  const { CPF, schemeId, timeId } = data;
   return {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    url: `${baseUrl}/matriculation`,
-    body: { ...data },
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    url: `${baseUrl}/secretary/registration`,
+    body: { CPF, schemeId, timeId },
   };
 };
 

@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHttp } from '../../hooks';
-import { Button, TextField, CircularProgress, FormControl, Select, MenuItem } from '@mui/material';
+import { Button, TextField, CircularProgress, FormControl, Select, MenuItem, InputLabel, OutlinedInput, Checkbox, ListItemText } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
 import { requestConfigPlans, requestConfigClasses, requestConfigMatriculation } from '../../Utils/requestsConfigs';
 import Header from '../../components/Header/Header';
+import GymContext from '../../context/GymContext';
 
 const Matriculation = () => {
   const theme = useTheme();
 
   const { login, title, form } = useStyles(theme);
 
+  const context = useContext(GymContext);
+  const { token } = context;
+
   const { loading: loadingPlans, data: plans, sendRequest: sendRequestPlans } = useHttp();
   const { loading: loadingClasses, data: classes, sendRequest: sendRequestClasses } = useHttp();
   const { loading: loadingMatriculation, data: matriculation, sendRequest: sendRequestMatriculation } = useHttp();
 
-  const loading = loadingPlans && loadingClasses;
+  const loading = loadingPlans || loadingClasses || loadingMatriculation;
 
   useEffect(() => {
     sendRequestPlans(requestConfigPlans());
-    sendRequestClasses(requestConfigClasses())
+    sendRequestClasses(requestConfigClasses(token));
   }, [])
 
   const plansOptions = ['Anual', 'Semestral', 'Mensal'];
@@ -27,13 +31,22 @@ const Matriculation = () => {
   const [plansFiltered, setPlansFiltered] = useState(plans);
   const [modalities, setModalities] = useState([]);
   const [frequencies, setFrequencies] = useState([]);
+  const [times, setTimes] = useState([]);
+  const [selectedTimes, setSelectedTimes] = useState([]);
 
   const [matriculationData, setMatriculationData] = useState({
-    cpf: '',
+    CPF: '',
     plan: '',
     modality: '',
     frequency: '',
+    schemeId: null,
+    timeId: [],
   });
+
+  const getFormattedDayTime = (day, time) => {
+    let timeApart = time.split(':');
+    return `${day} ${timeApart[0]}:${timeApart[1]}`;
+  };
 
   const filterModalities = plan => {
     const newModalities = [];
@@ -50,13 +63,17 @@ const Matriculation = () => {
   };
 
   const filterFrequencies = modality => {
-    console.log(modality, plansFiltered);
-    const filterModality = plansFiltered.filter(p => p.modality.includes(modality));
-    const newFrequencies = filterModality[0].paymentFrequencies[0].trainingFrequencies.map(t => t.trainingFrequency);
+    const filterModality = plansFiltered.find(p => p.modality.split(', ').includes(modality));
+    const newFrequencies = [...filterModality.paymentFrequencies[0].trainingFrequencies];
     setFrequencies(newFrequencies);
   };
 
-  const matriculate = () => sendRequestMatriculation(requestConfigMatriculation(matriculationData));
+  const filterTimes = modality => {
+    const classFiltered = classes.find(c => c.modality === modality);
+    setTimes([...classFiltered.days]);
+  };
+
+  const matriculate = () => sendRequestMatriculation(requestConfigMatriculation(token, matriculationData));
 
   const handleChange = (event, field) => {
     setMatriculationData(currentMatriculationData => ({
@@ -66,8 +83,42 @@ const Matriculation = () => {
 
     if (field === 'plan') {
       filterModalities(event.target.value);
+      setMatriculationData(currentMatriculationData => ({
+        ...currentMatriculationData,
+        modality: '',
+        frequency: '',
+        schemeId: null,
+        timeId: [],
+      }));
+      setSelectedTimes([]);
     } else if (field === 'modality') {
       filterFrequencies(event.target.value);
+      filterTimes(event.target.value);
+      setMatriculationData(currentMatriculationData => ({
+        ...currentMatriculationData,
+        frequency: '',
+        schemeId: null,
+        timeId: [],
+      }));
+      setSelectedTimes([]);
+    } else if (field === 'frequency') {
+      setMatriculationData(currentMatriculationData => ({
+        ...currentMatriculationData,
+        schemeId: frequencies.find(f => f.trainingFrequency === currentMatriculationData.frequency).id,
+        timeId: [],
+      }));
+      setSelectedTimes([]);
+    }
+  }
+
+  const handleChangeTimes = event => {
+    const newSelectedTimes = [...event.target.value];
+    if (newSelectedTimes.length <= matriculationData.frequency) {
+      setSelectedTimes(newSelectedTimes);
+      setMatriculationData(currentMatriculationData => ({
+        ...currentMatriculationData,
+        timeId: newSelectedTimes.map(s => s.id),
+      }));
     }
   }
 
@@ -79,40 +130,62 @@ const Matriculation = () => {
           <>
             <div className={title}>Matrícula</div>
             <FormControl className={form}>
-              <TextField variant="outlined" color="secondary" label="CPF" onChange={event => handleChange(event, 'cpf')} />
-              <Select
-                id="plan"
-                label="Plano"
-                value={matriculationData.plan}
-                onChange={event => handleChange(event, 'plan')}
-              >
-                <MenuItem value="">
-                  <em>Selecionar</em>
-                </MenuItem>
-                {plansOptions.map(plan => <MenuItem value={plan}>{plan}</MenuItem>)}
-              </Select>
-              <Select
-                id="modality"
-                label="Modalidade"
-                value={matriculationData.modality}
-                onChange={event => handleChange(event, 'modality')}
-              >
-                <MenuItem value="">
-                  <em>Selecionar</em>
-                </MenuItem>
-                {modalities.map(modality => <MenuItem value={modality}>{modality}</MenuItem>)}
-              </Select>
-              <Select
-                id="frequency"
-                label="Frequência"
-                value={matriculationData.frequency}
-                onChange={event => handleChange(event, 'frequency')}
-              >
-                <MenuItem value="">
-                  <em>Selecionar</em>
-                </MenuItem>
-                {frequencies.map(frequency => <MenuItem value={frequency}>{`${frequency}x na semana`}</MenuItem>)}
-              </Select>
+              <TextField variant="outlined" color="secondary" label="CPF" onChange={event => handleChange(event, 'CPF')} />
+              <FormControl variant="outlined" color="secondary">
+                <InputLabel>Plano</InputLabel>
+                <Select
+                  id="plan"
+                  label="Plano"
+                  value={matriculationData.plan}
+                  onChange={event => handleChange(event, 'plan')}
+                >
+                  {plansOptions.map(plan => <MenuItem value={plan}>{plan}</MenuItem>)}
+                </Select>
+              </FormControl>
+              <FormControl variant="outlined" color="secondary" disabled={matriculationData.plan === ''}>
+                <InputLabel>Modalidade</InputLabel>
+                <Select
+                  id="modality"
+                  label="Modalidade"
+                  value={matriculationData.modality}
+                  onChange={event => handleChange(event, 'modality')}
+                >
+                  {modalities.map(modality => <MenuItem value={modality}>{modality}</MenuItem>)}
+                </Select>
+              </FormControl>
+              <FormControl variant="outlined" color="secondary" disabled={matriculationData.modality === ''}>
+                <InputLabel>Frequência</InputLabel>
+                <Select
+                  id="frequency"
+                  label="Frequência"
+                  value={matriculationData.frequency}
+                  onChange={event => handleChange(event, 'frequency')}
+                >
+                  {frequencies.map(frequency => <MenuItem value={frequency.trainingFrequency}>{`${frequency.trainingFrequency}x na semana`}</MenuItem>)}
+                </Select>
+              </FormControl>
+              <FormControl variant="outlined" color="secondary" disabled={matriculationData.frequency === ''}>
+                <InputLabel>Horários</InputLabel>
+                <Select
+                  id="times"
+                  multiple
+                  label="Horários"
+                  input={<OutlinedInput label="Horários" />}
+                  value={selectedTimes}
+                  renderValue={selected => selected.map(s => getFormattedDayTime(s.weekDay, s.time)).join(', ')}
+                  onChange={event => handleChangeTimes(event)}
+                >
+                  {times.map(t => {
+                    const time = getFormattedDayTime(t.weekDay, t.time);
+                    return (
+                      <MenuItem key={time} value={t}>
+                        <Checkbox checked={selectedTimes.includes(t)} variant="outlined" color="secondary" />
+                        <ListItemText primary={time} />
+                      </MenuItem>
+                    )
+                  })}
+                </Select>
+              </FormControl>
               <Button variant="contained" color="secondary" onClick={() => matriculate()}>Finalizar</Button>
             </FormControl>
           </>

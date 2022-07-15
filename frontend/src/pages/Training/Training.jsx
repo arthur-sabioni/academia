@@ -152,6 +152,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 32,
+    fontFamily: 'Quantico',
   },
   fieldset: {
     borderRadius: 8,

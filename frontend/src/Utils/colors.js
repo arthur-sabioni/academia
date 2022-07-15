@@ -12,7 +12,7 @@ export const primary = {
 export const secondary = {
   main: '#1f1f1f',
   light: '#576986',
-  dark: '#001930',
+  dark: '#333333',
 };
 
 export const thirdy = {

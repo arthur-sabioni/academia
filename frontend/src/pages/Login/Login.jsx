@@ -11,7 +11,7 @@ import Header from '../../components/Header/Header';
 const Login = () => {
   const theme = useTheme();
 
-  const { login, title, form } = useStyles(theme);
+  const { login, title, form, divisory, textF} = useStyles(theme);
 
   const navigate = useNavigate();
 
@@ -50,9 +50,12 @@ const Login = () => {
       <div className={login}>
         {loading ? <CircularProgress /> :
           <>
-            <div className={title}>Login</div>
+            <div className={title}>Login
+            <hr className={divisory}/>
+            </div>
+            
             <FormControl>
-              <FormLabel color="secondary" focused={true}>Logar como:</FormLabel>
+              <FormLabel color='secondary' focused={true}>Logar como:</FormLabel>
               <RadioGroup
                 row
                 value={loginData.type}
@@ -63,8 +66,8 @@ const Login = () => {
               </RadioGroup >
             </FormControl >
             <FormControl className={form}>
-              <TextField variant="outlined" color="secondary" label="CPF" onChange={event => handleChange(event, 'CPF')} />
-              <TextField variant="outlined" color="secondary" type="password" label="Senha" onChange={event => handleChange(event, 'password')} />
+              <TextField variant="outlined" className={textF} color="secondary" label="CPF" onChange={event => handleChange(event, 'CPF')} />
+              <TextField variant="outlined" className={textF} color="secondary" type="password" label="Senha" onChange={event => handleChange(event, 'password')} />
               <Button variant="contained" color="secondary" onClick={() => logar()}>Entrar</Button>
             </FormControl>
           </>
@@ -82,7 +85,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    gap: 24,
+    gap: 28,
+    fontFamily: 'Quantico',
   },
   title: {
     fontSize: 32,
@@ -91,6 +95,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-end',
     gap: 24,
   },
+  divisory: {
+    width: 400,
+    padding: 0,
+    margin: 0,
+  },
+  textF:{
+    fontSize:40,
+  }
 }))
 
 export default Login;

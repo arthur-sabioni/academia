@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHttp } from '../../hooks';
-import { Button, TextField, CircularProgress, FormControl, Select, MenuItem } from '@mui/material';
+import { Button, TextField, CircularProgress, FormControl, Select, MenuItem, OutlinedInput } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
 import { requestConfigPlans, requestConfigClasses, requestConfigMatriculation } from '../../Utils/requestsConfigs';
@@ -9,7 +9,7 @@ import Header from '../../components/Header/Header';
 const Matriculation = () => {
   const theme = useTheme();
 
-  const { login, title, form } = useStyles(theme);
+  const { login, title, form, input, divisory } = useStyles(theme);
 
   const { loading: loadingPlans, data: plans, sendRequest: sendRequestPlans } = useHttp();
   const { loading: loadingClasses, data: classes, sendRequest: sendRequestClasses } = useHttp();
@@ -82,11 +82,13 @@ const Matriculation = () => {
               <TextField variant="outlined" color="secondary" label="CPF" onChange={event => handleChange(event, 'cpf')} />
               <Select
                 id="plan"
-                label="Plano"
+                variant='outlined'
+                className={input}
+                input ={<OutlinedInput label="Plano" />}
                 value={matriculationData.plan}
                 onChange={event => handleChange(event, 'plan')}
               >
-                <MenuItem value="">
+                <MenuItem className={input} value="">
                   <em>Selecionar</em>
                 </MenuItem>
                 {plansOptions.map(plan => <MenuItem value={plan}>{plan}</MenuItem>)}
@@ -130,14 +132,23 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    gap: 24,
+    gap: 28,
   },
   title: {
     fontSize: 32,
+    fontFamily: 'Quantico',
   },
   form: {
     alignItems: 'flex-end',
     gap: 24,
+  },
+  input: {
+    width: 400,
+  },
+  divisory: {
+    width: 400,
+    padding: 0,
+    margin: 0,
   },
 }))
 

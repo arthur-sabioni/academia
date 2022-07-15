@@ -89,6 +89,7 @@ const Gangs = () => {
 const useStyles = makeStyles(theme => ({
   title: {
     fontSize: 32,
+    fontFamily: 'Quantico',
   },
   enabled: {
     color: 'green',

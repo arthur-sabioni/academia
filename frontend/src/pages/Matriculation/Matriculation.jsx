@@ -130,6 +130,7 @@ const Matriculation = () => {
         {loading ? <CircularProgress /> :
           <>
             <div className={title}>Matrícula</div>
+            <hr className={divisory}/>
             <FormControl className={form}>
               <TextField variant="outlined" color="secondary" label="CPF" onChange={event => handleChange(event, 'CPF')} />
               <FormControl variant="outlined" color="secondary">
@@ -218,7 +219,7 @@ const useStyles = makeStyles((theme) => ({
     width: 400,
   },
   divisory: {
-    width: 400,
+    width: 450,
     padding: 0,
     margin: 0,
   },

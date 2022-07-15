@@ -11,7 +11,7 @@ const Informations = () => {
 
   const theme = useTheme();
 
-  const { register, title, fieldset, legend } = useStyles(theme);
+  const { register, title, fieldset, legend, divisory } = useStyles(theme);
 
   const { loading, error, data, sendRequest } = useHttp('');
 
@@ -83,6 +83,7 @@ const Informations = () => {
           loading ? <CircularProgress /> :
             <>
               <div className={title}>Dados do Cliente</div>
+              <hr className={divisory}/>
               <fieldset className={fieldset}>
                 <legend className={legend}>Treino</legend>
                   {trainingTranslated.map(key => (
@@ -120,7 +121,8 @@ const Informations = () => {
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    fontSize: 32,
+    fontSize: 28,
+    fontFamily: 'Quantico',
   },
   fieldset: {
     borderRadius: 8,
@@ -129,6 +131,9 @@ const useStyles = makeStyles((theme) => ({
   legend: {
     padding: '0 10px',
   },
+  divisory:{
+    padding: 2,
+  }
 }));
 
 export default Informations;

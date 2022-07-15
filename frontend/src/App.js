@@ -54,6 +54,8 @@ const theme = createTheme({
             width: 'fit-content',
             padding: '8px 16px',
             borderRadius: 8,
+            fontSize: 18,
+            fontFamily: 'Segoe UI'
           },
         },
       ],

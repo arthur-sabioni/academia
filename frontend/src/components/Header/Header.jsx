@@ -88,8 +88,8 @@ const useStyles = makeStyles((theme) => ({
     padding: '16px 32px',
     boxShadow: '0 6px 1em gray',
     fontWeight: 500,
-    color: theme.palette.secondary.dark,
-    backgroundColor: theme.palette.thirdy.main,
+    color: '#ffffff',
+    backgroundColor: theme.palette.secondary.main,
   },
   logo: {
     display: 'flex',
@@ -97,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 32,
     alignItems: 'center',
     cursor: 'pointer',
+    fontFamily: 'Quantico'
   },
   buttons: {
     display: 'flex',

@@ -1,25 +1,28 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, ThemeProvider } from '@mui/material';
+import { Button, ThemeProvider, } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
 import Header from '../../components/Header/Header';
 
+
 const Home = () => {
   const theme = useTheme();
 
-  const { home, content, title } = useStyles(theme);
+  const { home, content, title, subtitle, divsory } = useStyles(theme);
 
   const navigate = useNavigate();
 
   return (
     <ThemeProvider theme={theme}>
       <Header />
+      <hr className={divsory}/>
       <div className={home}>
         <img alt="Logo da academia" src="iconeacademia.png" height="256" width="256" />
         <div className={content}>
           <div className={title}>Academia</div>
-          <div>Bora ficar monstros?</div>
+          <hr className={divsory}/>
+          <div className={subtitle}>Bora ficar monstros?</div>
           <Button variant="contained" onClick={() => navigate('plans')}>Ver planos</Button>
         </div>
       </div>
@@ -46,6 +49,16 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 56,
+    fontFamily: 'Quantico',
+    fontStyle: 'italic',
+    borderColor: theme.palette.thirdy.light,
+  },
+  subtitle:{
+    fontFamily: 'Quantico',
+    fontStyle: 'italic',
+  },
+  divsory:{
+    width: 400,
   },
 }));
 

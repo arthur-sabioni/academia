@@ -10,7 +10,7 @@ import GymContext from '../../context/GymContext';
 const Matriculation = () => {
   const theme = useTheme();
 
-  const { login, title, form } = useStyles(theme);
+  const { login, title, form, input, divisory } = useStyles(theme);
 
   const context = useContext(GymContext);
   const { token } = context;
@@ -203,14 +203,23 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    gap: 24,
+    gap: 28,
   },
   title: {
     fontSize: 32,
+    fontFamily: 'Quantico',
   },
   form: {
     alignItems: 'flex-end',
     gap: 24,
+  },
+  input: {
+    width: 400,
+  },
+  divisory: {
+    width: 400,
+    padding: 0,
+    margin: 0,
   },
 }))
 

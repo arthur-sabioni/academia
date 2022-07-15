@@ -3,7 +3,7 @@ import { useHttp } from '../../hooks';
 import { Button, TextField, CircularProgress, FormControl, Select, MenuItem, InputLabel, OutlinedInput, Checkbox, ListItemText } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
-import { requestConfigPlans, requestConfigClasses, requestConfigMatriculation } from '../../Utils/requestsConfigs';
+import { requestConfigPlans, requestConfigClasses, requestConfigMatriculation, requestConfigSecretaryExam } from '../../Utils/requestsConfigs';
 import Header from '../../components/Header/Header';
 import GymContext from '../../context/GymContext';
 import { plans, classes } from "../../Utils/mocksApi";
@@ -11,7 +11,7 @@ import { plans, classes } from "../../Utils/mocksApi";
 const Matriculation = () => {
   const theme = useTheme();
 
-  const { login, title, form, input, divisory } = useStyles(theme);
+  const { login, title, form, input, divisory, error } = useStyles(theme);
 
   const context = useContext(GymContext);
   const { token } = context;
@@ -19,13 +19,20 @@ const Matriculation = () => {
   const { loading: loadingPlans, data: data1, sendRequest: sendRequestPlans } = useHttp();
   const { loading: loadingClasses, data: data2, sendRequest: sendRequestClasses } = useHttp();
   const { loading: loadingMatriculation, data: matriculation, sendRequest: sendRequestMatriculation } = useHttp();
+  const { loading: loadingExam, error: examError, data: exam, sendRequest: sendRequestExam } = useHttp();
 
-  const loading = loadingPlans || loadingClasses || loadingMatriculation;
+  const loading = loadingPlans || loadingClasses || loadingMatriculation || loadingExam;
 
   useEffect(() => {
     //sendRequestPlans(requestConfigPlans());
     //sendRequestClasses(requestConfigClasses(token));
   }, [])
+
+  useEffect(() => {
+    console.log(exam)
+    if(exam)
+      setAble(exam["able"]);
+  }, [exam])
 
   const plansOptions = ['Anual', 'Semestral', 'Mensal'];
 
@@ -33,6 +40,7 @@ const Matriculation = () => {
   const [modalities, setModalities] = useState([]);
   const [frequencies, setFrequencies] = useState([]);
   const [times, setTimes] = useState([]);
+  const [able, setAble] = useState(false);
   const [selectedTimes, setSelectedTimes] = useState([]);
 
   const [matriculationData, setMatriculationData] = useState({
@@ -74,7 +82,9 @@ const Matriculation = () => {
     setTimes([...classFiltered.days]);
   };
 
-  const matriculate = () => sendRequestMatriculation(requestConfigMatriculation(token, matriculationData));
+  const matriculate = () => { 
+    sendRequestMatriculation(requestConfigMatriculation(token, matriculationData)); 
+  }
 
   const handleChange = (event, field) => {
     setMatriculationData(currentMatriculationData => ({
@@ -109,8 +119,19 @@ const Matriculation = () => {
         timeId: [],
       }));
       setSelectedTimes([]);
+    } else if (field === "CPF") {
+      setAble(false)
     }
   }
+
+  const handleSearchExam = () => {
+    const body = {
+      "CPF": matriculationData["CPF"],
+    };
+    sendRequestExam(requestConfigSecretaryExam(token, body));
+  }
+
+  console.log(examError)
 
   const handleChangeTimes = event => {
     const newSelectedTimes = [...event.target.value];
@@ -132,7 +153,9 @@ const Matriculation = () => {
             <div className={title}>Matrícula</div>
             <hr className={divisory}/>
             <FormControl className={form}>
-              <TextField variant="outlined" color="secondary" label="CPF" onChange={event => handleChange(event, 'CPF')} />
+              <TextField variant="outlined" color="secondary" label="CPF" value={matriculationData["CPF"]} error={examError} onChange={event => handleChange(event, 'CPF')} />
+              {examError && <div className={error}>Aluno sem exame médico ou não encontrado</div>}
+              <Button variant="contained" color="secondary" onClick={() => handleSearchExam()}>Buscar Exame</Button>
               <FormControl variant="outlined" color="secondary">
                 <InputLabel>Plano</InputLabel>
                 <Select
@@ -188,7 +211,7 @@ const Matriculation = () => {
                   })}
                 </Select>
               </FormControl>
-              <Button variant="contained" color="secondary" onClick={() => matriculate()}>Finalizar</Button>
+              <Button variant="contained" color="secondary" onClick={() => matriculate() }  disabled={!able}>Finalizar</Button>
             </FormControl>
           </>
         }
@@ -198,6 +221,9 @@ const Matriculation = () => {
 };
 
 const useStyles = makeStyles((theme) => ({
+  error: {
+    color: "red",
+  },
   login: {
     flexGrow: 1,
     flexBasis: 'auto',

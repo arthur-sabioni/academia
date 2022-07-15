@@ -120,3 +120,15 @@ export const requestConfigRegistrations = token => {
     url: `${baseUrl}/client/registration`,
   };
 };
+
+export const requestConfigSecretaryExam = (token, data) => {
+  return {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    url: `${baseUrl}/secretary/exam`,
+    body: data,
+  };
+};

@@ -52,7 +52,7 @@ const Header = () => {
       case "client":
         return (
         <>
-          <Button variant="contained" disabled={pathname === '/informations'} onClick={() => { navigate('/informations') }}>Cadastrar Exame</Button>
+          <Button variant="contained" disabled={pathname === '/informations'} onClick={() => { navigate('/informations') }}>Informações</Button>
           <Button variant="contained" onClick={() => logout()}>Sair</Button>
         </>);
       default:

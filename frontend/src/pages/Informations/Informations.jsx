@@ -2,10 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useHttp } from '../../hooks';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
-import { Button, TextField, CircularProgress } from '@mui/material';
-import { requestConfigExam, requestConfigTraining, requestConfigExercises } from '../../Utils/requestsConfigs';
+import { CircularProgress } from '@mui/material';
+import { requestConfigExam, requestConfigTraining, requestConfigRegistrations } from '../../Utils/requestsConfigs';
 import Header from '../../components/Header/Header';
-import { examDefault } from '../../Utils/constants';
 import GymContext from '../../context/GymContext';
 
 const Informations = () => {
@@ -20,26 +19,56 @@ const Informations = () => {
   const [exam, setExam] = useState({});
   const [registrations, setRegistrations] = useState({});
   const [training, setTraining] = useState({});
-  
-  const context = useContext(GymContext);
-  //const { token } = context;
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiQ1BGIjoiMDkyLjQwNy4wNDYtMzkiLCJ0eXBlIjoiY2xpZW50IiwiaWF0IjoxNjU3MzAxMTQyfQ.86y0y_nUGV8bBiRnvByzxaJV7_ENTFr0Cjm1jz-2O-g"
 
-  console.log(exam, registrations, training)
+  let trainingTranslated = []
+  let groupMuscles = Object.entries(training).map(values => (
+    values[1]
+  ))
+  for(let i=0; i<groupMuscles.length; i++) {
+    let keys = Object.keys(groupMuscles[i])
+    for(let j=0; j<keys.length; j++) {
+      trainingTranslated.push("Exercício: " + groupMuscles[i][keys[j]]["exercise"] + ", repetições: " + groupMuscles[i][keys[j]]["repetitions"] + ", ficha: " + groupMuscles[i][keys[j]]["card"])
+    }
+  }
+
+  let examTranslated = []
+  if(exam) {
+    examTranslated.push("Peso: " + exam["weight"] + " Kg")
+    examTranslated.push("Altura: " + exam["height"] + " m")
+    examTranslated.push("Pressão: " + exam["pressure"])
+    examTranslated.push("Gordura: " + exam["fat"] + " Kg")
+    examTranslated.push("Massa Magra: " + exam["leanMass"] + " Kg")
+    examTranslated.push("Apto a treinar? " + (exam["able"] ? "Sim" : "Não"))
+  }
+
+  let registrationsTranslated = []
+  if(registrations) {
+    let keys = Object.keys(registrations)
+    for(let i=0; i<keys.length; i++) {
+      for(let j=0; j<registrations[keys[i]].length; j++) {
+        registrationsTranslated.push("Modalidade: " + keys[i] + ", dia: " + registrations[keys[i]][j]["weekDay"] + ", hora: " + registrations[keys[i]][j]["time"].slice(0,5))
+      }
+    }
+  }
+
+  console.log(registrations)
+
+  const context = useContext(GymContext);
+  const { token } = context;
 
   useEffect(() => {
     sendRequest(requestConfigExam(token));
   }, [])
 
   useEffect(() => {
-    if(data.length) {
-        if(clock === 0) {
+    if(data) {
+        if(clock == 1) {
             setExam(data)
-            sendRequest(requestConfigExercises(token));
-        } else if(clock === 1) {
+            sendRequest(requestConfigRegistrations(token));
+        } else if(clock == 2) {
             setRegistrations(data)
             sendRequest(requestConfigTraining(token));
-        } else if(clock === 2) {
+        } else if(clock == 3) {
             setTraining(data)
         }
         setClock(clock + 1)
@@ -56,12 +85,31 @@ const Informations = () => {
               <div className={title}>Dados do Cliente</div>
               <fieldset className={fieldset}>
                 <legend className={legend}>Treino</legend>
+                  {trainingTranslated.map(key => (
+                    <div>
+                      {key}
+                    </div>
+                  ))}
               </fieldset>
               <fieldset className={fieldset}>
                 <legend className={legend}>Exame</legend>
+                <div>
+                  {examTranslated.map(key => (
+                    <div>
+                      {key}
+                    </div>
+                  ))}
+                </div>
               </fieldset>
               <fieldset className={fieldset}>
                 <legend className={legend}>Matrículas</legend>
+                <div>
+                  {registrationsTranslated.map(key => (
+                    <div>
+                      {key}
+                    </div>
+                  ))}
+                </div>
               </fieldset>
             </>
         }

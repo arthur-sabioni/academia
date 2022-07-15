@@ -18,7 +18,7 @@ const Gangs = () => {
   const { loading, data, sendRequest } = useHttp([]);
 
   useEffect(() => {
-    //sendRequest(requestConfigClasses(token));
+    sendRequest(requestConfigClasses(token));
   }, [])
 
   const days = ['', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];

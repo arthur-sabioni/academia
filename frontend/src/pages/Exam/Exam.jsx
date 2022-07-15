@@ -17,7 +17,7 @@ const Exam = () => {
   const { loading, error, data, sendRequest } = useHttp('');
 
   const [exam, setExam] = useState(examDefault);
-  
+
   const context = useContext(GymContext);
   const { token } = context;
 
@@ -62,13 +62,13 @@ const Exam = () => {
               <fieldset className={fieldset}>
                 <legend className={legend}>Exame</legend>
                 <div className={examClass}>
-                  <TextField className={fieldWeight} value={exam["weight"]} variant="outlined" color="secondary" label="peso (kg)" type="number" onChange={event => handleChange(event, 'weight')}/>
-                  <TextField className={fieldHeight} value={exam["height"]} variant="outlined" color="secondary" label="altura (m)" type="number" onChange={event => handleChange(event, 'height')}/>
-                  <TextField className={fieldPressure} value={exam["pressure"]} variant="outlined" color="secondary" label="pressão" onChange={event => handleChange(event, 'pressure')}/>
-                  <TextField className={fieldFat} value={exam["fat"]} variant="outlined" color="secondary" label="gordura (kg)" type="number" onChange={event => handleChange(event, 'fat')}/>
-                  <TextField className={fieldLeanMass} value={exam["leanMass"]} variant="outlined" color="secondary" label="massa magra (kg)" type="number" onChange={event => handleChange(event, 'leanMass')}/>
-                  <TextField className={fieldIMC} value={exam["IMC"]} variant="outlined" color="secondary" label="IMC" type="number" onChange={event => handleChange(event, 'IMC')}/>
-                  <FormControlLabel className={fieldCheckbox} control={<Checkbox checked={exam["able"]} onChange={handleCheckboxChange}/>} label="apto a realizar atividade física" />
+                  <TextField className={fieldWeight} value={exam["weight"]} variant="outlined" color="secondary" label="Peso (kg)" type="number" onChange={event => handleChange(event, 'weight')} />
+                  <TextField className={fieldHeight} value={exam["height"]} variant="outlined" color="secondary" label="Altura (m)" type="number" onChange={event => handleChange(event, 'height')} />
+                  <TextField className={fieldPressure} value={exam["pressure"]} variant="outlined" color="secondary" label="Pressão" onChange={event => handleChange(event, 'pressure')} />
+                  <TextField className={fieldFat} value={exam["fat"]} variant="outlined" color="secondary" label="Gordura (kg)" type="number" onChange={event => handleChange(event, 'fat')} />
+                  <TextField className={fieldLeanMass} value={exam["leanMass"]} variant="outlined" color="secondary" label="Massa magra (kg)" type="number" onChange={event => handleChange(event, 'leanMass')} />
+                  <TextField className={fieldIMC} value={exam["IMC"]} variant="outlined" color="secondary" label="IMC" type="number" onChange={event => handleChange(event, 'IMC')} />
+                  <FormControlLabel className={fieldCheckbox} control={<Checkbox checked={exam["able"]} onChange={handleCheckboxChange} />} label="Apto a realizar atividade física" />
                 </div>
               </fieldset>
               <div className={buttons}>
@@ -126,9 +126,10 @@ const useStyles = makeStyles((theme) => ({
     gridRowGap: 24,
     padding: 32,
     gridTemplateAreas: `
-    "field-weight field-height field-pressure"
-    "field-fat field-leanMass field-IMC"
-    "field-checkbox field-checkbox field-checkbox"
+    "field-weight field-height"
+    "field-fat field-leanMass"
+    "field-pressure field-IMC"
+    "field-checkbox field-checkbox"
   `,
   },
   fieldWeight: {

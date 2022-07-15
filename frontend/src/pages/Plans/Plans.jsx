@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import { Grid, Paper, CircularProgress } from "@mui/material";
 import Header from "../../components/Header/Header";
 import { requestConfigPlans } from '../../Utils/requestsConfigs';
+import { plans } from "../../Utils/mocksApi";
 
 const Plans = () => {
   const theme = useTheme();
@@ -14,7 +15,7 @@ const Plans = () => {
   const { loading, data, sendRequest } = useHttp([]);
 
   useEffect(() => {
-    sendRequest(requestConfigPlans());
+    //sendRequest(requestConfigPlans());
   }, [])
 
   const getFormattedPrice = (paymentFrequency, price) => {
@@ -35,7 +36,7 @@ const Plans = () => {
       <Grid className={grid} container>
         {
           loading ? <CircularProgress /> :
-            data.map(plan => (
+            plans.map(plan => (
               <Grid className={card} item xs={4}>
                 <Paper className={paper} elevation={6}>
                   <div className={modality}>{plan.modality}</div>

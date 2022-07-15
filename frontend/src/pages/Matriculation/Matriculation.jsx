@@ -6,6 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { requestConfigPlans, requestConfigClasses, requestConfigMatriculation } from '../../Utils/requestsConfigs';
 import Header from '../../components/Header/Header';
 import GymContext from '../../context/GymContext';
+import { plans, classes } from "../../Utils/mocksApi";
 
 const Matriculation = () => {
   const theme = useTheme();
@@ -15,15 +16,15 @@ const Matriculation = () => {
   const context = useContext(GymContext);
   const { token } = context;
 
-  const { loading: loadingPlans, data: plans, sendRequest: sendRequestPlans } = useHttp();
-  const { loading: loadingClasses, data: classes, sendRequest: sendRequestClasses } = useHttp();
+  const { loading: loadingPlans, data: data1, sendRequest: sendRequestPlans } = useHttp();
+  const { loading: loadingClasses, data: data2, sendRequest: sendRequestClasses } = useHttp();
   const { loading: loadingMatriculation, data: matriculation, sendRequest: sendRequestMatriculation } = useHttp();
 
   const loading = loadingPlans || loadingClasses || loadingMatriculation;
 
   useEffect(() => {
-    sendRequestPlans(requestConfigPlans());
-    sendRequestClasses(requestConfigClasses(token));
+    //sendRequestPlans(requestConfigPlans());
+    //sendRequestClasses(requestConfigClasses(token));
   }, [])
 
   const plansOptions = ['Anual', 'Semestral', 'Mensal'];

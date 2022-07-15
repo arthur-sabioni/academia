@@ -6,6 +6,7 @@ import { Paper, CircularProgress, TableContainer, Table, TableHead, TableRow, Ta
 import Header from "../../components/Header/Header";
 import { requestConfigClasses } from '../../Utils/requestsConfigs';
 import GymContext from "../../context/GymContext";
+import { classes } from "../../Utils/mocksApi";
 
 const Gangs = () => {
   const theme = useTheme();
@@ -18,7 +19,7 @@ const Gangs = () => {
   const { loading, data, sendRequest } = useHttp([]);
 
   useEffect(() => {
-    sendRequest(requestConfigClasses(token));
+    //sendRequest(requestConfigClasses(token));
   }, [])
 
   const days = ['', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
@@ -37,13 +38,13 @@ const Gangs = () => {
       };
       days.forEach(day => {
         if (day === '') return null;
-        const classes = data.map(gang => {
+        const newClasses = classes.map(gang => {
           const dateTimeFind = gang.days.find(d => d.weekDay === day && getFormattedTime(d.time) === schedule);
           if (dateTimeFind)
             return { modality: gang.modality, full: dateTimeFind.full }
           return null;
         });
-        const classesFiltered = classes.filter(c => c !== null);
+        const classesFiltered = newClasses.filter(c => c !== null);
         rowDay.days.push(classesFiltered);
       });
       return rowDay;

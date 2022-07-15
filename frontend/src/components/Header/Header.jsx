@@ -43,9 +43,18 @@ const Header = () => {
           </>
         );
       case "doctor":
-        return (<></>);
+        return (
+          <>
+            <Button variant="contained" disabled={pathname === '/exam'} onClick={() => { navigate('/exam') }}>Cadastrar Exame</Button>
+            <Button variant="contained" onClick={() => logout()}>Sair</Button>
+          </>
+        );
       case "client":
-        return (<></>);
+        return (
+        <>
+          <Button variant="contained" disabled={pathname === '/informations'} onClick={() => { navigate('/informations') }}>Cadastrar Exame</Button>
+          <Button variant="contained" onClick={() => logout()}>Sair</Button>
+        </>);
       default:
         return (
           <Button variant="contained" disabled={pathname === '/login'} onClick={() => { navigate('/login') }}>Login</Button>

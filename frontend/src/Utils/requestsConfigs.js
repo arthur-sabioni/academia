@@ -9,11 +9,14 @@ export const requestConfigLogin = data => {
   };
 };
 
-export const requestConfigRegister = data => {
+export const requestConfigRegister = (token, data) => {
   return {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    url: `${baseUrl}/register`,
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    url: `${baseUrl}/secretary/user`,
     body: { ...data },
   };
 };
@@ -37,12 +40,16 @@ export const requestConfigClasses = token => {
   };
 };
 
-export const requestConfigMatriculation = data => {
+export const requestConfigMatriculation = (token, data) => {
+  const { CPF, schemeId, timeId } = data;
   return {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-    url: `${baseUrl}/matriculation`,
-    body: { ...data },
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    url: `${baseUrl}/secretary/registration`,
+    body: { CPF, schemeId, timeId },
   };
 };
 
@@ -66,5 +73,50 @@ export const requestConfigConfirmExercises = (token, data) => {
     },
     body: data,
     url: `${baseUrl}/teacher/training`,
+  };
+};
+
+export const requestConfigConfirmExam = (token, data) => {
+  return {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    body: data,
+    url: `${baseUrl}/doctor/`,
+  };
+};
+
+export const requestConfigTraining = token => {
+  return {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    url: `${baseUrl}/client/training`,
+  };
+};
+
+export const requestConfigExam = token => {
+  return {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    url: `${baseUrl}/client/exam`,
+  };
+};
+
+export const requestConfigRegistrations = token => {
+  return {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${token}`
+    },
+    url: `${baseUrl}/client/registration`,
   };
 };

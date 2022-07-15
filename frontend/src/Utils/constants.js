@@ -25,3 +25,14 @@ export const clientExercisesDefault = {
 export const repetitions = [
   0, 5, 10, 12, 15, 20, 25, 30, 60, 120
 ]
+
+export const examDefault = {
+  CPF: '',
+  weight: 0, 
+  height: 0, 
+  pressure: '', 
+  fat: 0, 
+  leanMass: 0, 
+  IMC: 0, 
+  able: false
+}

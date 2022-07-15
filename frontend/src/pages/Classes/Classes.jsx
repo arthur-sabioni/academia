@@ -10,7 +10,7 @@ import GymContext from "../../context/GymContext";
 const Gangs = () => {
   const theme = useTheme();
 
-  const { title, disabled, enabled } = useStyles(theme);
+  const { title, disabled, enabled, top } = useStyles(theme);
 
   const context = useContext(GymContext);
   const { token } = context;
@@ -18,7 +18,7 @@ const Gangs = () => {
   const { loading, data, sendRequest } = useHttp([]);
 
   useEffect(() => {
-    sendRequest(requestConfigClasses(token));
+    //sendRequest(requestConfigClasses(token));
   }, [])
 
   const days = ['', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
@@ -61,14 +61,16 @@ const Gangs = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  {days.map(day => <TableCell>{day}</TableCell>)}
+                  {days.map(day => <TableCell>{<div className={top}>{day}</div>}</TableCell>)}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {rows().map((row) => (
                   <TableRow key={row.schedule}>
                     <TableCell>
+                    <div className={top}>
                       {row.schedule}
+                    </div>
                     </TableCell>
                     {row.days.map(day =>
                       <TableCell>
@@ -96,6 +98,9 @@ const useStyles = makeStyles(theme => ({
   },
   disabled: {
     color: 'red',
+  },
+  top: {
+    fontWeight: 'bold',
   },
 }));
 
